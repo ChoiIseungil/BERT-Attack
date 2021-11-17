@@ -188,7 +188,7 @@ def get_substitues(substitutes, tokenizer, mlm_model, use_bpe, substitutes_score
 def get_bpe_substitues(substitutes, tokenizer, mlm_model):
     # substitutes L, k
 
-    substitutes = substitutes[0:12, 0:4] # maximum BPE candidates
+    substitutes = substitutes[0:12, 0:2] # maximum BPE candidates
 
     # find all possible candidates 
 

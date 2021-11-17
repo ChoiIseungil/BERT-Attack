@@ -1,0 +1,1 @@
+python bertattack_1.py --data_path data_defense/ag_1k.tsv --mlm_path bert-base-uncased --tgt_path fabriceyhc/bert-base-uncased-ag_news --use_sim_mat 0 --output_dir data_defense/experiment1/ag_all_candidate.tsv --num_label 4 --use_bpe 1 --k 48 --start 0 --end 100 --threshold_pred_score 0

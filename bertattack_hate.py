@@ -12,12 +12,12 @@ import torch
 import torch.nn as nn
 import json
 from torch.utils.data import DataLoader, SequentialSampler, TensorDataset
-from transformers import BertConfig, BertTokenizer
+from transformers import BertConfig, BertTokenizer, AutoTokenizer
 from transformers import BertForSequenceClassification, BertForMaskedLM
 import copy
 import argparse
 import numpy as np
-import time
+from hate_model import Model_Rational_Label
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -470,15 +470,17 @@ def run_attack():
 
     print('start process')
 
-    tokenizer_mlm = BertTokenizer.from_pretrained(mlm_path, do_lower_case=True)
-    tokenizer_tgt = BertTokenizer.from_pretrained(tgt_path, do_lower_case=True)
+    tokenizer_mlm = BertTokenizer.from_pretrained(mlm_path)
+    # tokenizer_tgt = BertTokenizer.from_pretrained(tgt_path, do_lower_case=True)
+    tokenizer_tgt = AutoTokenizer.from_pretrained(tgt_path)
 
     config_atk = BertConfig.from_pretrained(mlm_path)
     mlm_model = BertForMaskedLM.from_pretrained(mlm_path, config=config_atk)
     mlm_model.to('cuda')
 
     config_tgt = BertConfig.from_pretrained(tgt_path, num_labels=num_label)
-    tgt_model = BertForSequenceClassification.from_pretrained(tgt_path, config=config_tgt)
+    # tgt_model = BertForSequenceClassification.from_pretrained(tgt_path, config=config_tgt)
+    tgt_model = Model_Rational_Label.from_pretrained(tgt_path, config=config_tgt)
     tgt_model.to('cuda')
     features = get_data_cls(data_path)
     print('loading sim-embed')
@@ -513,6 +515,4 @@ def run_attack():
 
 
 if __name__ == '__main__':
-    start = time.time()
     run_attack()
-    print("Elapsed time: {:.4f}".format(time.time()-start))

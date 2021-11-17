@@ -48,7 +48,24 @@ filter_words = ['a', 'about', 'above', 'across', 'after', 'afterwards', 'again',
                 "won't", 'would', 'wouldn', "wouldn't", 'y', 'yet', 'you', "you'd", "you'll", "you're", "you've",
                 'your', 'yours', 'yourself', 'yourselves']
 filter_words = set(filter_words)
+f = None
 
+def filter_punc(word, prefix, use_bpe):
+    global f
+    if f is None:
+        if use_bpe:
+            f = open("./punc_log.txt", "w")
+        else:
+            f = open("./punc_log_wo_sub.txt", "w")
+        print("use_bpe: {0}".format, use_bpe)
+    
+    punc_list = ".,?!@#$%^&*()_+=-[]{}:;`~"
+    # f.write(word + "\n")
+    for punc in punc_list:
+        if punc in word:
+            f.write(prefix + word + "\n")
+            return True
+    return False
 
 def get_sim_embed(embed_path, sim_path):
     id2word = {}
@@ -87,7 +104,8 @@ class Feature(object):
         self.success = 0
         self.sim = 0.0
         self.changes = []
-        self.atk_label  = 0
+        # new
+        self.label_adv = 0
 
 
 def _tokenize(seq, tokenizer):
@@ -243,18 +261,23 @@ def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=5
     current_prob = orig_probs.max()
 
     if orig_label != feature.label:
+        feature.label_adv = -1
         feature.success = 3
-        feature.atk_label = -1
         return feature
 
     sub_words = ['[CLS]'] + sub_words[:max_length - 2] + ['[SEP]']
     input_ids_ = torch.tensor([tokenizer.convert_tokens_to_ids(sub_words)])
+    # get the output of the mlm model
     word_predictions = mlm_model(input_ids_.to('cuda'))[0].squeeze()  # seq-len(sub) vocab
+    # select each k-outputs for each of the tokens
     word_pred_scores_all, word_predictions = torch.topk(word_predictions, k, -1)  # seq-len k
 
+    # topk outputs (exclude [CLS])
     word_predictions = word_predictions[1:len(sub_words) + 1, :]
+    # topk outputs' probability (exclude [CLS])
     word_pred_scores_all = word_pred_scores_all[1:len(sub_words) + 1, :]
 
+    # sort the words with respect to the 'vulnerability'
     important_scores = get_important_scores(words, tgt_model, current_prob, orig_label, orig_probs,
                                             tokenizer, batch_size, max_length)
     feature.query += int(len(words))
@@ -264,18 +287,23 @@ def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=5
 
     for top_index in list_of_index:
         if feature.change > int(0.4 * (len(words))):
+            feature.label_adv = -1
             feature.success = 1  # exceed
-            feature.atk_label = -1
             return feature
 
         tgt_word = words[top_index[0]]
         if tgt_word in filter_words:
             continue
+        # filter out the punctuation marks
+        if filter_punc(tgt_word, "tgt_word\t", use_bpe):
+            continue
         if keys[top_index[0]][0] > max_length - 2:
             continue
 
-
+        # (word's subword #) * K
+        # top_index[0]: idx, top_index[1]: important score
         substitutes = word_predictions[keys[top_index[0]][0]:keys[top_index[0]][1]]  # L, k
+        # score(probability) of substitutes
         word_pred_scores = word_pred_scores_all[keys[top_index[0]][0]:keys[top_index[0]][1]]
 
         substitutes = get_substitues(substitutes, tokenizer, mlm_model, use_bpe, word_pred_scores, threshold_pred_score)
@@ -293,6 +321,9 @@ def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=5
                 continue  # filter out sub-word
 
             if substitute in filter_words:
+                continue
+            # filter out the punctuation marks
+            if filter_punc(substitute, "substitude\t", use_bpe):
                 continue
             if substitute in w2i and tgt_word in w2i:
                 if cos_mat[w2i[substitute]][w2i[tgt_word]] < 0.4:
@@ -314,7 +345,7 @@ def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=5
                 feature.changes.append([keys[top_index[0]][0], substitute, tgt_word])
                 feature.final_adverse = temp_text
                 feature.success = 4
-                feature.atk_label = temp_label.item()
+                feature.label_adv = temp_label.item()
                 return feature
             else:
 
@@ -331,8 +362,8 @@ def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=5
             final_words[top_index[0]] = candidate
 
     feature.final_adverse = (tokenizer.convert_tokens_to_string(final_words))
+    feature.label_adv = temp_label.item()
     feature.success = 2
-    feature.atk_label = -1
     return feature
 
 
@@ -418,6 +449,7 @@ def evaluate(features):
     result_str += '\nacc: {:.6f}, total: {:.6f}, total_q: {:.6f}, total_change: {:.6f}, total_word: {:.6f}, origin_success: {:.6f}'.format(acc, total, total_q, total_change, total_word, origin_success)
     # print('acc/aft-atk-acc {:.6f}/ {:.6f}, query-num {:.4f}, change-rate {:.4f}'.format(origin_acc, after_atk, query, change_rate))
     print(result_str)
+    return result_str
 
 
 def dump_features(features, output):
@@ -425,7 +457,7 @@ def dump_features(features, output):
 
     for feature in features:
         outputs.append({'label': feature.label,
-                        'atk_label': feature.atk_label,
+                        'label_adv': feature.label_adv,
                         'success': feature.success,
                         'change': feature.change,
                         'num_word': len(feature.seq.split(' ')),
@@ -507,8 +539,13 @@ def run_attack():
                 print('failed', end='')
             features_output.append(feat)
 
-    evaluate(features_output)
+    result_str = evaluate(features_output)
 
+    
+    f = open(os.path.splitext(output_dir)[0] + ".txt", "w")
+    f.write(result_str)
+    f.close()
+    
     dump_features(features_output, output_dir)
 
 
@@ -516,3 +553,5 @@ if __name__ == '__main__':
     start = time.time()
     run_attack()
     print("Elapsed time: {:.4f}".format(time.time()-start))
+    if f is not None:
+        f.close()

@@ -17,7 +17,6 @@ from transformers import BertForSequenceClassification, BertForMaskedLM
 import copy
 import argparse
 import numpy as np
-import time
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -66,32 +65,35 @@ def get_sim_embed(embed_path, sim_path):
 
 
 def get_data_cls(data_path):
+    label2id = {"entailment": 0, "neutral": 1, "contradiction": 2}
     lines = open(data_path, 'r', encoding='utf-8').readlines()[1:]
     features = []
     for i, line in enumerate(lines):
         split = line.strip('\n').split('\t')
-        label = int(split[-1])
-        seq = split[0]
+        label = int(label2id[split[0]])
+        h = split[1]
+        p = split[2]
 
-        features.append([seq, label])
+        features.append([h, p, label])
     return features
 
 
 class Feature(object):
-    def __init__(self, seq_a, label):
+    def __init__(self, h, p, label):
         self.label = label
-        self.seq = seq_a
-        self.final_adverse = seq_a
+        self.h = h
+        self.p = p
+        self.final_adverse = h
         self.query = 0
         self.change = 0
         self.success = 0
         self.sim = 0.0
         self.changes = []
-        self.atk_label  = 0
 
 
 def _tokenize(seq, tokenizer):
-    seq = seq.replace('\n', '').lower()
+    #seq = seq.replace('\n', '').lower()
+    seq = seq.replace('\n', '')
     words = seq.split(' ')
 
     sub_words = []
@@ -115,16 +117,17 @@ def _get_masked(words):
     return masked_words
 
 
-def get_important_scores(words, tgt_model, orig_prob, orig_label, orig_probs, tokenizer, batch_size, max_length):
+def get_important_scores(words, h, tgt_model, orig_prob, orig_label, orig_probs, tokenizer, batch_size, max_length):
     masked_words = _get_masked(words)
     texts = [' '.join(words) for words in masked_words]  # list of text of masked words
     all_input_ids = []
     all_masks = []
     all_segs = []
     for text in texts:
-        inputs = tokenizer.encode_plus(text, None, add_special_tokens=True, max_length=max_length, )
+        inputs = tokenizer.encode_plus(h, text, add_special_tokens=True, max_length=max_length, )
         input_ids, token_type_ids = inputs["input_ids"], inputs["token_type_ids"]
-        attention_mask = [1] * len(input_ids)
+        # attention_mask = [1] * len(input_ids)
+        attention_mask = inputs['attention_mask']
         padding_length = max_length - len(input_ids)
         input_ids = input_ids + (padding_length * [0])
         token_type_ids = token_type_ids + (padding_length * [0])
@@ -227,12 +230,13 @@ def get_bpe_substitues(substitutes, tokenizer, mlm_model):
 
 def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=512, cos_mat=None, w2i={}, i2w={}, use_bpe=1, threshold_pred_score=0.3):
     # MLM-process
-    words, sub_words, keys = _tokenize(feature.seq, tokenizer)
+    words, sub_words, keys = _tokenize(feature.p, tokenizer)
 
     # original label
-    inputs = tokenizer.encode_plus(feature.seq, None, add_special_tokens=True, max_length=max_length, )
+    inputs = tokenizer.encode_plus(feature.h, feature.p, add_special_tokens=True, max_length=max_length, )
     input_ids, token_type_ids = torch.tensor(inputs["input_ids"]), torch.tensor(inputs["token_type_ids"])
-    attention_mask = torch.tensor([1] * len(input_ids))
+    # attention_mask = torch.tensor([1] * len(input_ids))
+    attention_mask = torch.tensor(inputs['attention_mask'])
     seq_len = input_ids.size(0)
     orig_probs = tgt_model(input_ids.unsqueeze(0).to('cuda'),
                            attention_mask.unsqueeze(0).to('cuda'),
@@ -244,7 +248,6 @@ def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=5
 
     if orig_label != feature.label:
         feature.success = 3
-        feature.atk_label = -1
         return feature
 
     sub_words = ['[CLS]'] + sub_words[:max_length - 2] + ['[SEP]']
@@ -255,7 +258,7 @@ def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=5
     word_predictions = word_predictions[1:len(sub_words) + 1, :]
     word_pred_scores_all = word_pred_scores_all[1:len(sub_words) + 1, :]
 
-    important_scores = get_important_scores(words, tgt_model, current_prob, orig_label, orig_probs,
+    important_scores = get_important_scores(words, feature.h, tgt_model, current_prob, orig_label, orig_probs,
                                             tokenizer, batch_size, max_length)
     feature.query += int(len(words))
     list_of_index = sorted(enumerate(important_scores), key=lambda x: x[1], reverse=True)
@@ -265,7 +268,6 @@ def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=5
     for top_index in list_of_index:
         if feature.change > int(0.4 * (len(words))):
             feature.success = 1  # exceed
-            feature.atk_label = -1
             return feature
 
         tgt_word = words[top_index[0]]
@@ -300,7 +302,7 @@ def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=5
             temp_replace = final_words
             temp_replace[top_index[0]] = substitute
             temp_text = tokenizer.convert_tokens_to_string(temp_replace)
-            inputs = tokenizer.encode_plus(temp_text, None, add_special_tokens=True, max_length=max_length, )
+            inputs = tokenizer.encode_plus(feature.h, temp_text, add_special_tokens=True, max_length=max_length, )
             input_ids = torch.tensor(inputs["input_ids"]).unsqueeze(0).to('cuda')
             seq_len = input_ids.size(1)
             temp_prob = tgt_model(input_ids)[0].squeeze()
@@ -314,7 +316,6 @@ def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=5
                 feature.changes.append([keys[top_index[0]][0], substitute, tgt_word])
                 feature.final_adverse = temp_text
                 feature.success = 4
-                feature.atk_label = temp_label.item()
                 return feature
             else:
 
@@ -332,7 +333,6 @@ def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=5
 
     feature.final_adverse = (tokenizer.convert_tokens_to_string(final_words))
     feature.success = 2
-    feature.atk_label = -1
     return feature
 
 
@@ -369,8 +369,10 @@ def evaluate(features):
                 self.sim_scores = 1.0 - tf.acos(clip_cosine_similarities)
 
             def semantic_sim(self, sents1, sents2):
-                sents1 = [s.lower() for s in sents1]
-                sents2 = [s.lower() for s in sents2]
+                # sents1 = [s.lower() for s in sents1]
+                sents1 = [s for s in sents1]
+                # sents2 = [s.lower() for s in sents2]
+                sents2 = [s for s in sents2]
                 scores = self.sess.run(
                     [self.sim_scores],
                     feed_dict={
@@ -392,14 +394,14 @@ def evaluate(features):
         if feat.success > 2:
 
             if do_use == 1:
-                sim = float(use.semantic_sim([feat.seq], [feat.final_adverse]))
+                sim = float(use.semantic_sim([feat.h], [feat.final_adverse]))
                 if sim < sim_thres:
                     continue
             
             acc += 1
             total_q += feat.query
             total_change += feat.change
-            total_word += len(feat.seq.split(' '))
+            total_word += len(feat.h.split(' '))
 
             if feat.success == 3:
                 origin_success += 1
@@ -414,10 +416,7 @@ def evaluate(features):
     origin_acc = 1 - origin_success / total
     after_atk = 1 - suc
 
-    result_str = 'acc/aft-atk-acc {:.6f}/ {:.6f}, query-num {:.4f}, change-rate {:.4f}'.format(origin_acc, after_atk, query, change_rate)
-    result_str += '\nacc: {:.6f}, total: {:.6f}, total_q: {:.6f}, total_change: {:.6f}, total_word: {:.6f}, origin_success: {:.6f}'.format(acc, total, total_q, total_change, total_word, origin_success)
-    # print('acc/aft-atk-acc {:.6f}/ {:.6f}, query-num {:.4f}, change-rate {:.4f}'.format(origin_acc, after_atk, query, change_rate))
-    print(result_str)
+    print('acc/aft-atk-acc {:.6f}/ {:.6f}, query-num {:.4f}, change-rate {:.4f}'.format(origin_acc, after_atk, query, change_rate))
 
 
 def dump_features(features, output):
@@ -425,13 +424,13 @@ def dump_features(features, output):
 
     for feature in features:
         outputs.append({'label': feature.label,
-                        'atk_label': feature.atk_label,
                         'success': feature.success,
                         'change': feature.change,
-                        'num_word': len(feature.seq.split(' ')),
+                        'num_word': len(feature.h.split(' ')),
                         'query': feature.query,
                         'changes': feature.changes,
-                        'seq_a': feature.seq,
+                        'hypothsis': feature.h,
+                        'premises': feature.p,
                         'adv': feature.final_adverse,
                         })
     output_json = output
@@ -470,8 +469,10 @@ def run_attack():
 
     print('start process')
 
-    tokenizer_mlm = BertTokenizer.from_pretrained(mlm_path, do_lower_case=True)
-    tokenizer_tgt = BertTokenizer.from_pretrained(tgt_path, do_lower_case=True)
+    # tokenizer_mlm = BertTokenizer.from_pretrained(mlm_path, do_lower_case=True)
+    tokenizer_mlm = BertTokenizer.from_pretrained(mlm_path, do_lower_case=False)
+    # tokenizer_tgt = BertTokenizer.from_pretrained(tgt_path, do_lower_case=True)
+    tokenizer_tgt = BertTokenizer.from_pretrained(tgt_path, do_lower_case=False)
 
     config_atk = BertConfig.from_pretrained(mlm_path)
     mlm_model = BertForMaskedLM.from_pretrained(mlm_path, config=config_atk)
@@ -493,8 +494,8 @@ def run_attack():
 
     with torch.no_grad():
         for index, feature in enumerate(features[start:end]):
-            seq_a, label = feature
-            feat = Feature(seq_a, label)
+            h, p, label = feature
+            feat = Feature(h, p, label)
             print('\r number {:d} '.format(index) + tgt_path, end='')
             # print(feat.seq[:100], feat.label)
             feat = attack(feat, tgt_model, mlm_model, tokenizer_tgt, k, batch_size=32, max_length=512,
@@ -513,6 +514,4 @@ def run_attack():
 
 
 if __name__ == '__main__':
-    start = time.time()
     run_attack()
-    print("Elapsed time: {:.4f}".format(time.time()-start))
