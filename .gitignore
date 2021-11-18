@@ -1,1 +1,4 @@
 /data_defense
+*.txt
+*.swp
+.DS_Store

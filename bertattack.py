@@ -11,9 +11,16 @@ import os
 import torch
 import torch.nn as nn
 import json
+import random
 from torch.utils.data import DataLoader, SequentialSampler, TensorDataset
 from transformers import BertConfig, BertTokenizer
 from transformers import BertForSequenceClassification, BertForMaskedLM
+from textattack.constraints.pre_transformation.min_word_length import MinWordLength
+from textattack.transformations import WordSwapNeighboringCharacterSwap, \
+    WordSwapRandomCharacterDeletion, WordSwapRandomCharacterInsertion, \
+        WordSwapRandomCharacterSubstitution, WordSwapQWERTY
+from textattack.augmentation import Augmenter
+from textattack.transformations import CompositeTransformation
 import copy
 import argparse
 import numpy as np
@@ -48,6 +55,39 @@ filter_words = ['a', 'about', 'above', 'across', 'after', 'afterwards', 'again',
                 "won't", 'would', 'wouldn', "wouldn't", 'y', 'yet', 'you', "you'd", "you'll", "you're", "you've",
                 'your', 'yours', 'yourself', 'yourselves']
 filter_words = set(filter_words)
+
+
+class FixWordSwapQWERTY(WordSwapQWERTY):
+    def _get_replacement_words(self, word):
+        if len(word) <= 1:
+            return []
+
+        candidate_words = []
+
+        start_idx = 1 if self.skip_first_char else 0
+        end_idx = len(word) - (1 + self.skip_last_char)
+
+        if start_idx >= end_idx:
+            return []
+
+        if self.random_one:
+            i = random.randrange(start_idx, end_idx + 1)
+            if len(self._get_adjacent(word[i])) == 0:
+                candidate_word = (
+                word[:i] + random.choice(list(self._keyboard_adjacency.keys())) + word[i + 1:]
+                )
+            else:
+                candidate_word = (
+                word[:i] + random.choice(self._get_adjacent(word[i])) + word[i + 1:]
+                )
+                candidate_words.append(candidate_word)
+        else:
+            for i in range(start_idx, end_idx + 1):
+                for swap_key in self._get_adjacent(word[i]):
+                    candidate_word = word[:i] + swap_key + word[i + 1 :]
+                    candidate_words.append(candidate_word)
+
+        return candidate_words
 
 
 def get_sim_embed(embed_path, sim_path):
@@ -161,16 +201,13 @@ def get_important_scores(words, tgt_model, orig_prob, orig_label, orig_probs, to
     return import_scores
 
 
-def get_substitues(substitutes, tokenizer, mlm_model, use_bpe, substitutes_score=None, threshold=3.0):
+def get_substitues(tgt_word, substitutes, tokenizer, mlm_model, use_bpe, substitutes_score=None, threshold=3.0):
     # substitues L,k
     # from this matrix to recover a word
     words = []
     sub_len, k = substitutes.size()  # sub-len, k
 
-    if sub_len == 0:
-        return words
-        
-    elif sub_len == 1:
+    if sub_len == 1:
         for (i,j) in zip(substitutes[0], substitutes_score[0]):
             if threshold != 0 and j < threshold:
                 break
@@ -178,11 +215,23 @@ def get_substitues(substitutes, tokenizer, mlm_model, use_bpe, substitutes_score
     else:
         if use_bpe == 1:
             words = get_bpe_substitues(substitutes, tokenizer, mlm_model)
-        else:
-            return words
     #
     # print(words)
-    return words
+    transformation = CompositeTransformation([
+    WordSwapRandomCharacterDeletion(),
+    WordSwapNeighboringCharacterSwap(),
+    WordSwapRandomCharacterInsertion(),
+    WordSwapRandomCharacterSubstitution(),
+    FixWordSwapQWERTY(),
+    ])
+
+    constraints = [MinWordLength(3)]
+    augmenter = Augmenter(transformation=transformation, constraints=constraints, pct_words_to_swap=0, transformations_per_example=5)
+    typo_query = augmenter.augment(tgt_word)
+    print(len(words+typo_query))
+    print((words+typo_query))
+    raise Exception
+    return words+typo_query
 
 
 def get_bpe_substitues(substitutes, tokenizer, mlm_model):
@@ -278,7 +327,7 @@ def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=5
         substitutes = word_predictions[keys[top_index[0]][0]:keys[top_index[0]][1]]  # L, k
         word_pred_scores = word_pred_scores_all[keys[top_index[0]][0]:keys[top_index[0]][1]]
 
-        substitutes = get_substitues(substitutes, tokenizer, mlm_model, use_bpe, word_pred_scores, threshold_pred_score)
+        substitutes = get_substitues(tgt_word, substitutes, tokenizer, mlm_model, use_bpe, word_pred_scores, threshold_pred_score)
 
 
         most_gap = 0.0
