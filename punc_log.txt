@@ -1,31 +1,11 @@
 tgt_word	space.com
 tgt_word	space.com
 tgt_word	)
-substitude	sub -biting
-substitude	sub -meting
-substitude	sub -bit ,
-substitude	sub -bit -
-substitude	suborbit ,
-substitude	sub -met ,
-substitude	sub -met -
-substitude	sub -bat ,
-substitude	sub -bating
-substitude	sub -piting
-substitude	subormet -
-substitude	subormet ,
-substitude	sub -bital
-substitude	sub -pit ,
-substitude	sub -batal
-substitude	sub -pit -
-substitude	sub -pital
-substitude	sub -metal
-substitude	sub -bat -
-substitude	suborbit -
+sub	-
+sub	-
+sub	,
 tgt_word	.
-substitude	an -
-substitude	ama -
-substitude	ah -
-substitude	ali -
+sub	-
 tgt_word	(
 tgt_word	36;10
 tgt_word	--
@@ -118,34 +98,21 @@ substitude	-
 substitude	:
 tgt_word	(
 tgt_word	ky.
-substitude	protein .
-substitude	litter .
-substitude	neon .
-substitude	protein -
-substitude	peptide -
-substitude	litter -
-substitude	neon -
-substitude	peptide .
+sub	.
+sub	-
 tgt_word	-
 substitude	-
 substitude	.
 substitude	:
 substitude	,
-substitude	. "
-substitude	. s
-substitude	. a
-substitude	. open
+sub	.
 substitude	,
-substitude	! -
-substitude	" )
-substitude	' -
-substitude	! '
-substitude	! )
-substitude	' )
-substitude	a -
-substitude	! "
-substitude	a )
-substitude	" -
+sub	!
+sub	,
+sub	-
+sub	)
+sub	.
+sub	,
 tgt_word	(
 tgt_word	,
 substitude	,
@@ -193,104 +160,118 @@ substitude	,
 substitude	,
 substitude	,
 tgt_word	.
-substitude	,
-substitude	-
+sub	.
 substitude	.
 substitude	,
-substitude	)
-substitude	,
-substitude	.
-substitude	-
-substitude	...
-substitude	,
-substitude	.
-substitude	:
-substitude	!
-substitude	,
-substitude	:
-substitude	-
-tgt_word	.
-substitude	...
-substitude	. loging
-substitude	. endating
-substitude	. end and
-substitude	. lo and
-substitude	. loosing
-substitude	. loating
-substitude	. endging
-substitude	. endosing
-substitude	.
-substitude	,
-substitude	... ...
-substitude	. ...
-substitude	. '
-substitude	... )
-substitude	' ...
-substitude	. "
-substitude	" )
-substitude	. )
-substitude	... '
-substitude	' )
-substitude	... "
-substitude	" ...
-substitude	. .
-substitude	) )
-substitude	) "
-substitude	' .
-substitude	) '
-substitude	. '
-substitude	. "
-substitude	" )
-substitude	. )
-substitude	' )
-substitude	) .
-substitude	" .
-substitude	. .
-substitude	) "
-substitude	' .
-substitude	) '
-substitude	. ...
-substitude	. '
-substitude	' ...
-substitude	. "
-substitude	) .
-substitude	) ...
-substitude	" .
-substitude	" ...
+sub	.
+sub	...
+sub	]
+sub	)
+sub	,
+sub	[
+sub	-
+sub	(
+sub	?
+sub	:
+sub	;
+sub	*
+sub	)
+sub	...
+sub	]
+sub	.
+sub	,
+sub	;
+sub	-
+sub	(
+sub	[
+sub	.
+sub	)
+sub	]
+sub	...
+sub	(
+sub	,
+sub	?
+sub	:
+sub	-
+sub	[
+sub	!
+sub	*
+sub	;
+sub	.
+sub	)
+sub	]
+sub	...
+sub	,
+sub	[
+sub	(
+sub	-
+sub	?
+sub	*
+sub	:
+sub	;
+sub	)
+sub	.
+sub	]
+sub	:
+sub	(
+sub	...
+sub	-
+sub	,
+sub	...
+sub	.
+sub	)
+sub	[
 substitude	,
 substitude	.
 substitude	-
-substitude	. .
-substitude	' .
-substitude	. ...
-substitude	. '
-substitude	' ...
-substitude	. "
-substitude	] '
-substitude	] "
-substitude	" .
-substitude	" ...
-substitude	] .
-substitude	] ...
+sub	.
+sub	]
+sub	)
+sub	...
+sub	[
+sub	,
+sub	:
+sub	(
+sub	-
+sub	?
+sub	;
+sub	*
+sub	...
+sub	.
+sub	]
+sub	,
+sub	[
+sub	:
 tgt_word	,
 substitude	,
 tgt_word	.
-substitude	. .
-substitude	) )
-substitude	) "
-substitude	' .
-substitude	) '
-substitude	. '
-substitude	. "
-substitude	" )
-substitude	. )
-substitude	' )
-substitude	) .
-substitude	" .
-substitude	` s
-substitude	` the
-substitude	` '
-substitude	` was
+sub	.
+sub	)
+sub	]
+sub	[
+sub	...
+sub	(
+sub	:
+sub	,
+sub	-
+sub	?
+sub	;
+sub	!
+sub	*
+sub	.
+sub	)
+sub	]
+sub	...
+sub	[
+sub	,
+sub	:
+sub	(
+sub	-
+sub	;
+sub	?
+sub	*
+sub	!
+sub	`
 substitude	.
 substitude	,
 tgt_word	.
@@ -317,67 +298,13 @@ tgt_word	,
 substitude	.
 substitude	,
 tgt_word	.
-substitude	,
-substitude	.
-substitude	,
-substitude	...
-substitude	-
-substitude	.
-tgt_word	-
-substitude	-
-substitude	,
-substitude	.
-substitude	:
-tgt_word	-
-tgt_word	-
-substitude	,
-tgt_word	.
-substitude	.
-substitude	-
-substitude	,
-substitude	-
-substitude	.
-substitude	,
-substitude	:
-substitude	id . :
-substitude	id . .
-substitude	id .it
-substitude	id .id
-substitude	id en .
-substitude	id en :
-substitude	ided :
-substitude	ided .
-substitude	keyent :
-substitude	ident .
-substitude	keyent .
-substitude	ident :
-substitude	keyed .
-substitude	keyed :
+sub	.
+sub	:
+sub	.
+sub	:
 tgt_word	fingerprint(s
-substitude	.jfke
-substitude	.oafces
-substitude	.jfkes
-substitude	.oafke
-substitude	.oakses
-substitude	.oafce
-substitude	.oafcy
-substitude	.oafkes
-substitude	.oafcey
-substitude	.oakse
-substitude	.oafky
-substitude	.jfky
-substitude	.jfkey
-substitude	.jwkes
-substitude	.oafkey
-substitude	.oaksy
-substitude	.oawkes
-substitude	.oawke
-substitude	.jwke
-substitude	.oaksey
-substitude	.oawkey
-substitude	.jwky
-substitude	.jwkey
-substitude	.oawky
+sub	.
+sub	,
 tgt_word	(
 tgt_word	,
 tgt_word	,
@@ -486,25 +413,19 @@ substitude	:
 substitude	.
 substitude	:
 substitude	,
-substitude	, -
-substitude	, ...
-substitude	. -
-substitude	. ...
-substitude	' ...
-substitude	. "
-substitude	. ,
-substitude	, ,
-substitude	' -
-substitude	' ,
-substitude	, "
-substitude	" -
-substitude	" ...
-substitude	" ,
-substitude	. internet
-substitude	. email
-substitude	. e
-substitude	. anti
-substitude	cyber .
+sub	,
+sub	.
+sub	-
+sub	...
+sub	:
+sub	,
+sub	...
+sub	-
+sub	]
+sub	.
+sub	;
+sub	.
+sub	,
 tgt_word	-
 tgt_word	(
 tgt_word	.
@@ -554,14 +475,8 @@ substitude	$
 substitude	.
 substitude	:
 tgt_word	(
-substitude	, ground
-substitude	-ground
-substitude	- market
-substitude	, market
-substitude	- ground
-substitude	,za
-substitude	-za
-substitude	,ground
+sub	-
+sub	,
 tgt_word	,
 tgt_word	,
 tgt_word	)
@@ -599,68 +514,34 @@ substitude	:
 tgt_word	,
 substitude	,
 substitude	.
-substitude	. social .
-substitude	. socialites
-substitude	. socially .
-substitude	" mutual .
-substitude	. sociallyites
-substitude	. social couples
-substitude	" social .
-substitude	. socially we
-substitude	" polar .
-substitude	. socially couples
-substitude	. social we
-substitude	" socially .
-substitude	. -
-substitude	. '
-substitude	. "
-substitude	' -
-substitude	of -
-substitude	" -
-substitude	. there
+sub	.
+sub	,
+sub	.
+sub	.
+sub	-
+sub	,
+sub	-
+sub	...
 tgt_word	.
 tgt_word	,
-substitude	a -
-substitude	" -
-substitude	the -
-substitude	our -
+sub	-
 substitude	.
 substitude	,
 substitude	-
 substitude	?
 substitude	:
-substitude	. .
-substitude	and .
-substitude	' .
-substitude	. s
-substitude	.s
-substitude	. a
-substitude	s .
-substitude	tan .aur
-substitude	tan . .
-substitude	tran . .
-substitude	tan .aurus
-substitude	trantos .
-substitude	tanos .
-substitude	tranos .
-substitude	trannos .
-substitude	tran .aurus
-substitude	tan .odon
-substitude	tran .aur
-substitude	tran .odon
-substitude	` s
-substitude	` the
-substitude	` '
-substitude	`s
+sub	.
+sub	.
+sub	.
+sub	.
+sub	.
+sub	`
 tgt_word	--
 tgt_word	.
 tgt_word	.
 substitude	-
 substitude	.
-substitude	gan .da
-substitude	gan .d
-substitude	gan .de
-substitude	gan .fe
+sub	.
 substitude	,
 substitude	,
 substitude	.
@@ -680,10 +561,7 @@ substitude	-
 substitude	,
 substitude	:
 tgt_word	,
-substitude	ama -
-substitude	ea -
-substitude	esa -
-substitude	eu -
+sub	-
 tgt_word	--
 substitude	.
 substitude	:
@@ -702,14 +580,8 @@ substitude	.
 substitude	-
 substitude	,
 substitude	:
-substitude	inter - planetary
-substitude	inter -stellar
-substitude	inter - sol
-substitude	inter -tary
-substitude	inter - planetary
-substitude	inter -stellar
-substitude	inter -tary
-substitude	inter -ar
+sub	-
+sub	-
 substitude	.
 substitude	,
 substitude	-
@@ -820,10 +692,10 @@ tgt_word	.
 tgt_word	,
 tgt_word	,
 substitude	,
-substitude	n . t
-substitude	n . '
-substitude	n . n
-substitude	n . not
+sub	.
+sub	`
+sub	=
+sub	,
 substitude	,
 substitude	,
 substitude	-
@@ -860,18 +732,10 @@ substitude	.
 substitude	,
 substitude	-
 substitude	...
-substitude	un g .
-substitude	slow g .
-substitude	slow a .
-substitude	un g ,
-substitude	slow g ,
-substitude	slowgs .
-substitude	slow a ,
-substitude	ungis .
-substitude	slowgis .
-substitude	ungis ,
-substitude	slowgis ,
-substitude	slowgs ,
+sub	`
+sub	.
+sub	,
+sub	-
 tgt_word	.
 tgt_word	:
 substitude	:
@@ -899,13 +763,8 @@ substitude	.
 substitude	,
 substitude	(
 substitude	)
-substitude	. .
-substitude	.t
-substitude	the .
-substitude	to .
-substitude	" .
-substitude	.ddy
-substitude	.ee
+sub	.
+sub	.
 substitude	.
 substitude	:
 substitude	,
@@ -939,14 +798,11 @@ substitude	.
 substitude	,
 substitude	;
 substitude	-
-substitude	n , n
-substitude	n , '
-substitude	n ,t
-substitude	n , t
-substitude	` is
-substitude	` s
-substitude	` n
-substitude	`s
+sub	,
+sub	)
+sub	-
+sub	`
+sub	,
 substitude	.
 substitude	,
 substitude	-
@@ -968,14 +824,11 @@ substitude	,
 substitude	.
 substitude	,
 substitude	-
-substitude	. s
-substitude	.s
-substitude	. is
-substitude	, n
-substitude	, s
-substitude	, is
-substitude	,s
-substitude	. n
+sub	,
+sub	.
+sub	)
+sub	-
+sub	(
 substitude	.
 substitude	,
 substitude	-
@@ -985,30 +838,12 @@ substitude	,
 substitude	]
 substitude	-
 substitude	:
-substitude	var -ks
-substitude	var -r
-substitude	var -rk
-substitude	var -k
-substitude	.pas
-substitude	.pac and
-substitude	.pacs
-substitude	.pau
-substitude	.pacu
-substitude	.pa and
-substitude	.pah
-substitude	.pach
-substitude	n . t
-substitude	n , '
-substitude	n , t
-substitude	n , s
-substitude	n . '
-substitude	n . s
-substitude	n , not
-substitude	th . t
-substitude	n . not
-substitude	th . s
-substitude	th . '
-substitude	th . not
+sub	-
+sub	.
+sub	.
+sub	,
+sub	)
+sub	-
 substitude	.
 substitude	!
 substitude	,
@@ -1084,18 +919,10 @@ substitude	:
 tgt_word	,
 tgt_word	.
 tgt_word	,
-substitude	. .
-substitude	. ,
-substitude	, .
-substitude	, ,
-substitude	, providence
-substitude	.tucket
-substitude	wa ,
-substitude	. providence
-substitude	wa .
-substitude	,tucket
-substitude	paw .
-substitude	paw ,
+sub	.
+sub	,
+sub	,
+sub	.
 tgt_word	,
 tgt_word	.
 substitude	-
@@ -1224,14 +1051,15 @@ tgt_word	.
 substitude	,
 substitude	...
 substitude	.
-substitude	. s
-substitude	. ll
-substitude	, s
-substitude	. ve
-substitude	, d
-substitude	, ll
-substitude	. d
-substitude	, ve
+sub	.
+sub	,
+sub	-
+sub	?
+sub	:
+sub	;
+sub	)
+sub	...
+sub	!
 substitude	.
 substitude	:
 substitude	-
@@ -1387,10 +1215,7 @@ substitude	;
 substitude	(
 substitude	[
 substitude	]
-substitude	l .
-substitude	la .
-substitude	lu .
-substitude	lou .
+sub	.
 substitude	.
 substitude	,
 substitude	-
@@ -1478,12 +1303,9 @@ tgt_word	,
 tgt_word	,
 tgt_word	-
 tgt_word	,
-substitude	s -
-substitude	' -
-substitude	` -
-substitude	` s
-substitude	` '
-substitude	`s
+sub	`
+sub	-
+sub	-
 substitude	.
 substitude	,
 substitude	)
@@ -1581,18 +1403,11 @@ substitude	,
 substitude	!
 substitude	%
 substitude	.
-substitude	, '
-substitude	, the
-substitude	, s
-substitude	,s
+sub	,
+sub	-
 tgt_word	sohu.com
-substitude	. .
-substitude	.m
-substitude	.t
-substitude	the .
-substitude	" .
-substitude	.r
-substitude	s .
+sub	.
+sub	.
 substitude	,
 tgt_word	-
 substitude	.
@@ -1713,10 +1528,7 @@ tgt_word	)
 tgt_word	.
 tgt_word	-
 tgt_word	-
-substitude	.land
-substitude	.man
-substitude	. in
-substitude	.stad
+sub	.
 tgt_word	(
 substitude	.
 substitude	-
@@ -1778,6 +1590,7 @@ substitude	+
 substitude	#
 substitude	:
 substitude	*
+sub	.
 tgt_word	j.d.
 substitude	.
 substitude	*
@@ -1909,26 +1722,11 @@ substitude	,
 substitude	-
 substitude	,
 substitude	-
-substitude	hitter *
-substitude	batter *
-substitude	pitcher *
-substitude	singled *
-substitude	2 - 3rd
-substitude	2 - 2
-substitude	2 - 3
-substitude	2 - 4
-substitude	1 - 3rd
-substitude	1 - 4
-substitude	1 - 2
-substitude	1 . 2
-substitude	1 - 3
-substitude	1 : 2
-substitude	1 . 3rd
-substitude	1 : 3rd
-substitude	1 . 3
-substitude	1 . 4
-substitude	1 : 3
-substitude	1 : 4
+sub	*
+sub	-
+sub	:
+sub	.
+sub	*
 substitude	-
 substitude	.
 substitude	-
@@ -1972,26 +1770,11 @@ substitude	.
 substitude	-
 substitude	,
 substitude	-
-substitude	*
-substitude	ease -
-substitude	ease .
-substitude	eased .
-substitude	easing .
-substitude	easing -
-substitude	increases .
-substitude	increases -
-substitude	eased -
-substitude	. .
-substitude	of .
-substitude	.ive
-substitude	. peaceful
-substitude	the .
-substitude	" .
-substitude	. united
-substitude	. '
-substitude	. of
-substitude	. s
-substitude	. the
+sub	-
+sub	.
+sub	.
+sub	.
+sub	.
 substitude	.
 substitude	,
 substitude	,
@@ -2006,6 +1789,12 @@ substitude	-
 substitude	,
 substitude	-
 substitude	.
+substitude	,
+substitude	.
+substitude	,
+substitude	-
+substitude	:
+substitude	;
 tgt_word	thedeal.com
 tgt_word	)
 tgt_word	(
@@ -2027,14 +1816,7 @@ substitude	,
 substitude	)
 substitude	?
 substitude	-
-substitude	di -taler
-substitude	di -tage
-substitude	di -talize
-substitude	di -tale
-substitude	di -tager
-substitude	di -talle
-substitude	di -tagle
-substitude	di -tagize
+sub	-
 substitude	.
 substitude	-
 substitude	,
@@ -2067,10 +1849,7 @@ substitude	.
 substitude	,
 substitude	-
 tgt_word	-
-substitude	` s
-substitude	` the
-substitude	` '
-substitude	` d
+sub	`
 substitude	,
 substitude	,
 substitude	,
@@ -2080,10 +1859,7 @@ substitude	-
 substitude	)
 substitude	:
 tgt_word	.
-substitude	in -
-substitude	as -
-substitude	ag -
-substitude	af -
+sub	-
 substitude	.
 substitude	,
 substitude	.
@@ -2111,30 +1887,10 @@ tgt_word	-
 tgt_word	-
 tgt_word	u.s.
 tgt_word	.
-substitude	.nduries
-substitude	.nduris
-substitude	.asuris
-substitude	.ndurins
-substitude	.asuries
-substitude	.aspings
-substitude	.asloads
-substitude	.asloades
-substitude	.aspinges
-substitude	.asurins
-substitude	.asurives
-substitude	.ndurives
-substitude	.aspingns
-substitude	.nd $es
-substitude	.aspingves
-substitude	.nd $s
-substitude	.asloadns
-substitude	.as $es
-substitude	.as $s
-substitude	.asloadves
-substitude	.as $ves
-substitude	.nd $ns
-substitude	.as $ns
-substitude	.nd $ves
+sub	.
+sub	,
+sub	$
+sub	.
 tgt_word	u.s.
 substitude	.
 substitude	;
@@ -2173,14 +1929,6 @@ substitude	;
 substitude	,
 substitude	)
 tgt_word	-
-substitude	.
-substitude	,
-substitude	,
-substitude	.
-tgt_word	-
-substitude	,
-substitude	-
-substitude	.
 substitude	.
 substitude	,
 substitude	;
@@ -2242,14 +1990,10 @@ substitude	-
 substitude	,
 substitude	:
 substitude	-
-substitude	. '
-substitude	, '
-substitude	. of
-substitude	. s
-substitude	.s
-substitude	, of
-substitude	, s
-substitude	,s
+sub	.
+sub	,
+sub	)
+sub	-
 substitude	-
 substitude	.
 substitude	:
@@ -2284,10 +2028,7 @@ substitude	,
 substitude	*
 substitude	:
 substitude	-
-substitude	. '
-substitude	. of
-substitude	. s
-substitude	.s
+sub	.
 tgt_word	u.s.
 substitude	.
 substitude	,
@@ -2397,51 +2138,48 @@ tgt_word	11i.10
 tgt_word	-
 tgt_word	,
 tgt_word	:
-substitude	. .
-substitude	.p
-substitude	. project
-substitude	as .
-substitude	.ap
-substitude	af .
-substitude	fa .
-substitude	. world
-substitude	- world
-substitude	. una
-substitude	. nations
-substitude	. un
-substitude	- una
-substitude	- un
-substitude	- nations
-substitude	, -
-substitude	, ...
-substitude	, '
-substitude	a ...
-substitude	a -
-substitude	, "
-substitude	" -
-substitude	" ...
-substitude	the -
-substitude	the ...
-substitude	- -
-substitude	, -
-substitude	, ...
-substitude	- ...
-substitude	' ...
-substitude	- ,
-substitude	, ,
-substitude	' -
-substitude	' ,
-substitude	, "
-substitude	" -
-substitude	" ...
-substitude	- "
-substitude	" ,
+sub	.
+sub	.
+sub	.
+sub	-
+sub	,
+sub	:
+sub	...
+sub	-
+sub	,
+sub	,
+sub	-
+sub	.
+sub	...
+sub	(
+sub	:
+sub	,
+sub	-
+sub	...
+sub	)
 tgt_word	.
 substitude	...
 substitude	,
 substitude	.
 substitude	,
 substitude	...
+substitude	-
+substitude	$
+substitude	.
+substitude	,
+substitude	+
+substitude	,
+substitude	.
+substitude	,
+substitude	-
+substitude	.
+substitude	;
+substitude	-
+substitude	,
+substitude	-
+substitude	.
+substitude	+
+substitude	,
 substitude	.
 tgt_word	.
 substitude	.
@@ -2564,23 +2302,13 @@ substitude	.
 substitude	-
 substitude	.
 tgt_word	.
-substitude	.boot
-substitude	.cats
-substitude	.tors
-substitude	. nets
+sub	.
 tgt_word	-
 tgt_word	(
 tgt_word	)
-substitude	. .
-substitude	, .
-substitude	. the
-substitude	the .
-substitude	. team
-substitude	, the
-substitude	, z
-substitude	" .
-substitude	, team
-substitude	. z
+sub	.
+sub	,
+sub	.
 substitude	.
 substitude	-
 substitude	:
@@ -2658,47 +2386,25 @@ substitude	.
 substitude	-
 substitude	,
 substitude	.
-substitude	, t
-substitude	, the
-substitude	, a
-substitude	, s
-substitude	) the
-substitude	) t
-substitude	) s
-substitude	) a
+sub	,
+sub	)
+sub	-
+sub	.
 substitude	,
 substitude	-
 substitude	.
 tgt_word	girafa.com
 tgt_word	inc.
-substitude	os .
-substitude	net .
-substitude	ports .
-substitude	os ,
-substitude	ports ,
-substitude	net ,
-substitude	nets .
-substitude	nets ,
-substitude	` s
-substitude	` '
-substitude	` a
-substitude	` its
-substitude	` s
-substitude	` '
-substitude	`s
-substitude	` its
+sub	.
+sub	,
+sub	`
+sub	`
 tgt_word	inc.
 tgt_word	,
-substitude	. .
-substitude	, .
-substitude	,and
-substitude	.a
-substitude	.l
-substitude	the .
-substitude	,a
-substitude	,l
-substitude	" .
-substitude	.and
+sub	.
+sub	,
+sub	.
+sub	-
 tgt_word	.
 tgt_word	,
 tgt_word	,
@@ -2716,14 +2422,9 @@ substitude	.
 substitude	,
 substitude	:
 tgt_word	)
-substitude	.ov
-substitude	.ova
-substitude	.ini
-substitude	,ina
-substitude	.ina
-substitude	,ov
-substitude	,ini
-substitude	,ova
+sub	.
+sub	,
+sub	)
 substitude	-
 substitude	,
 tgt_word	(
@@ -2849,17 +2550,10 @@ tgt_word	.
 substitude	,
 substitude	-
 substitude	,
-substitude	` s
-substitude	` '
-substitude	` defense
-substitude	`s
+sub	`
 tgt_word	-
-substitude	at -
-substitude	red -
-substitude	set -
-substitude	down -
+sub	-
 tgt_word	)
-tgt_word	(
 substitude	.
 substitude	,
 substitude	-
@@ -2903,10 +2597,7 @@ substitude	)
 substitude	:
 substitude	&
 substitude	!
-substitude	` s
-substitude	` '
-substitude	`s
-substitude	` its
+sub	`
 tgt_word	,
 substitude	-
 substitude	.
@@ -2931,15 +2622,8 @@ substitude	-
 substitude	.
 substitude	.
 substitude	,
-substitude	st - -
-substitude	st -ing
-substitude	st marching -
-substitude	st -y
-substitude	st -ling
-substitude	sc pounding -
-substitude	stomp -
-substitude	st pounding -
-substitude	scomp -
+sub	-
+sub	-
 substitude	.
 substitude	-
 substitude	,
@@ -2990,18 +2674,6 @@ substitude	-
 substitude	.
 substitude	-
 substitude	.
-substitude	:
-substitude	,
-substitude	;
-tgt_word	-
-tgt_word	,
-substitude	-
-substitude	.
-substitude	)
-tgt_word	.
-tgt_word	)
-tgt_word	(
-substitude	.
 substitude	,
 substitude	;
 substitude	)
@@ -3060,18 +2732,11 @@ substitude	.
 substitude	-
 substitude	,
 substitude	,
-substitude	, -
-substitude	. .
-substitude	. -
-substitude	, .
-substitude	,ion
-substitude	,ing
-substitude	.ion
-substitude	.ing
-substitude	the .
-substitude	" .
-substitude	" -
-substitude	the -
+sub	.
+sub	,
+sub	)
+sub	.
+sub	-
 substitude	,
 substitude	-
 substitude	.
@@ -3092,24 +2757,18 @@ substitude	)
 substitude	-
 substitude	.
 tgt_word	36;2.6
-substitude	boost *
-substitude	rebirth .
-substitude	boost .
-substitude	resurgence .
-substitude	rebirth *
-substitude	surge .
-substitude	surge *
-substitude	resurgence *
+sub	.
+sub	*
+sub	-
+sub	,
+sub	;
+sub	:
 substitude	,
 substitude	.
-substitude	. .
-substitude	. ,
-substitude	.art
-substitude	km ,
-substitude	km .
-substitude	i .
-substitude	s ,
-substitude	s .
+sub	.
+sub	.
+sub	,
+sub	:
 tgt_word	u.s.
 substitude	.
 substitude	,
@@ -3145,42 +2804,37 @@ substitude	=
 substitude	,
 tgt_word	color=""#666666""&gt;&lt;b&gt;-the
 tgt_word	post&lt;/b&gt;&lt;/font&gt
-substitude	) "
-substitude	) (
-substitude	' (
-substitude	; (
-substitude	) in
-substitude	" (
-substitude	; the
-substitude	; in
-substitude	; "
-substitude	) the
-substitude	sl .
-substitude	s .
-substitude	ser .
-substitude	center .
-substitude	. (
-substitude	) "
-substitude	) (
-substitude	. "
-substitude	' (
-substitude	. the
-substitude	. in
-substitude	) in
-substitude	" (
-substitude	) the
-substitude	aria ,
-substitude	s ,
-substitude	vi ,
-substitude	star ,
-substitude	. consumer
-substitude	. consumers
-substitude	. customers
-substitude	. users
-substitude	) users
-substitude	) customers
-substitude	) consumer
-substitude	) consumers
+sub	;
+sub	)
+sub	,
+sub	:
+sub	}
+sub	]
+sub	.
+sub	-
+sub	=
+sub	(
+sub	*
+sub	?
+sub	(
+sub	.
+sub	)
+sub	.
+sub	]
+sub	;
+sub	*
+sub	(
+sub	,
+sub	:
+sub	}
+sub	...
+sub	-
+sub	?
+sub	(
+sub	,
+sub	.
+sub	)
+sub	...
 tgt_word	,
 tgt_word	,
 tgt_word	.
@@ -3226,18 +2880,10 @@ substitude	-
 substitude	.
 substitude	:
 substitude	.
-substitude	-
-substitude	,
-substitude	- -
-substitude	- .
-substitude	- s
-substitude	-s
-substitude	broker -
-substitude	signs -
-substitude	broker .
-substitude	signs .
-substitude	announces -
-substitude	announces .
+sub	-
+sub	.
+sub	-
+sub	,
 tgt_word	u.s.
 substitude	,
 substitude	.
@@ -3287,23 +2933,10 @@ tgt_word	)
 tgt_word	(
 substitude	.
 tgt_word	--
-substitude	smart .
-substitude	clever .
-substitude	sneak .
-substitude	stealth .
-substitude	n . t
-substitude	n .t
-substitude	n = t
-substitude	n . n
-substitude	n . not
-substitude	n =t
-substitude	n = not
-substitude	n = n
+sub	.
+sub	.
+sub	=
 tgt_word	corp.
-substitude	,
-substitude	-
-substitude	.
-tgt_word	,
 substitude	-
 substitude	.
 substitude	,
@@ -3326,41 +2959,13 @@ substitude	$
 substitude	,
 substitude	.
 substitude	-
-substitude	. declares .
-substitude	. declaring .
-substitude	.claimes
-substitude	. declare .
-substitude	. declareses
-substitude	. declarees
-substitude	. declare s
-substitude	. declares s
-substitude	. declares
-substitude	.claim .
-substitude	.claims
-substitude	. declaringes
-substitude	. declaring s
-substitude	. declarings
-substitude	. declaress
-substitude	.claim s
-substitude	s declares .
-substitude	sclaim .
+sub	.
+sub	,
+sub	.
+sub	-
+sub	:
 tgt_word	quot;after
-substitude	.nis s
-substitude	.niss
-substitude	.nisas
-substitude	.ais
-substitude	.akis
-substitude	.rais
-substitude	.aki s
-substitude	.nisis
-substitude	.ai s
-substitude	.akiis
-substitude	.aiis
-substitude	.raiis
-substitude	.akias
-substitude	.aias
-substitude	.rai s
-substitude	.raias
+sub	.
 substitude	,
 substitude	,
 substitude	.
@@ -3445,13 +3050,8 @@ tgt_word	.
 tgt_word	-
 tgt_word	(
 tgt_word	)
-substitude	. -
-substitude	.son
-substitude	. player
-substitude	of -
-substitude	" -
-substitude	the -
-substitude	.sson
+sub	.
+sub	-
 substitude	.
 substitude	,
 substitude	-
@@ -3459,12 +3059,8 @@ substitude	:
 tgt_word	39;s
 tgt_word	,
 tgt_word	#
-substitude	heske -
-substitude	hes -
-substitude	heski -
-substitude	himski -
-substitude	himske -
-substitude	hesl -
+sub	-
+sub	.
 substitude	)
 substitude	.
 substitude	.
@@ -3490,25 +3086,12 @@ substitude	:
 substitude	;
 substitude	.
 substitude	.
-substitude	)
-substitude	,
-substitude	:
-substitude	.
-substitude	-
-substitude	,
-substitude	.
-substitude	;
-substitude	-
-substitude	.
 substitude	...
 substitude	]
 substitude	,
 substitude	?
 substitude	-
-substitude	' ,
-substitude	the ,
-substitude	a ,
-substitude	" ,
+sub	,
 substitude	.
 tgt_word	.
 tgt_word	fullquote.aspx?ticker
@@ -3616,10 +3199,7 @@ substitude	-
 tgt_word	aug.
 substitude	.
 substitude	-
-substitude	iraqi .
-substitude	iranian .
-substitude	iraq .
-substitude	assyrian .
+sub	.
 substitude	.
 substitude	,
 substitude	,
@@ -3671,9 +3251,8 @@ substitude	.
 substitude	:
 substitude	,
 substitude	.
-substitude	growth .
-substitude	hike .
-substitude	increases .
+sub	.
+sub	,
 substitude	,
 substitude	.
 substitude	.
