@@ -18,8 +18,6 @@ import copy
 import argparse
 import numpy as np
 import time
-from itertools import combinations, product
-import ipdb
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -184,7 +182,7 @@ def get_important_scores(words, tgt_model, orig_prob, orig_label, orig_probs, to
     return import_scores
 
 
-def get_substitues(substitutes, original, before_words, after_words, k, tokenizer, mlm_model, use_bpe, substitutes_score=None, threshold=3.0):
+def get_substitues(substitutes, tokenizer, mlm_model, use_bpe, substitutes_score=None, threshold=3.0):
     # substitues L,k
     # from this matrix to recover a word
     words = []
@@ -200,7 +198,7 @@ def get_substitues(substitutes, original, before_words, after_words, k, tokenize
             words.append(tokenizer._convert_id_to_token(int(i)))
     else:
         if use_bpe == 1:
-            words = get_bpe_substitues(substitutes, original, before_words, after_words, k, tokenizer, mlm_model)
+            words = get_bpe_substitues(substitutes, tokenizer, mlm_model)
         else:
             return words
     #
@@ -208,17 +206,11 @@ def get_substitues(substitutes, original, before_words, after_words, k, tokenize
     return words
 
 
-def get_bpe_substitues(substitutes, original, before_words, after_words, arg_k, tokenizer, mlm_model):
+def get_bpe_substitues(substitutes, tokenizer, mlm_model):
     # substitutes L, k
 
     # substitutes = substitutes[0:12, 0:4] # maximum BPE candidates
     substitutes = substitutes[0:12, :]
-    batch_size = 128
-
-    # change num
-    change_num = 3
-
-    change_num = min(change_num, len(substitutes))
 
     # find all possible candidates 
     subst_wo_punc = []
@@ -239,81 +231,27 @@ def get_bpe_substitues(substitutes, original, before_words, after_words, arg_k, 
     substitutes = subst_wo_punc
 
     all_substitutes = []
-    # for i in range(len(substitutes)):
-    #     if len(all_substitutes) == 0:
-    #         lev_i = substitutes[i]
-    #         all_substitutes = [[int(c)] for c in lev_i]
-    #     else:
-    #         lev_i = []
-    #         for all_sub in all_substitutes:
-    #             for j in substitutes[i]:
-    #                 lev_i.append(all_sub + [int(j)])
-    #         all_substitutes = lev_i
-
-    combinator = combinations(list(range(len(substitutes))), change_num)
-    combinator = list(combinator)
-    for comb in combinator:
-        c = 1
-        lens = []
-        for i in comb:
-            c *= len(substitutes[i])
-            lens.append(len(substitutes[i]))
-        ids = []
-        for num in range(c):
-            temp = []
-            n = num
-            for i in lens:
-                temp.append(n % i)
-                n = n // i
-            ids.append(temp)
-        for i in range(len(ids)):
-            # new_subs = [int(substitutes[comb[k]][j]) for k, j in enumerate(ids[i])]
-            new_subs = []
-            for k, j in enumerate(original):
-                if k in comb:
-                    new_subs.append(int(substitutes[k][ids[i][comb.index(k)]]))
-                else:
-                    new_subs.append(int(j))
-            all_substitutes.append(new_subs)
-    
-    # ipdb.set_trace()
-    all_phrases = []
-    for i in range(len(all_substitutes)):
-        all_phrases.append(before_words + all_substitutes[i] + after_words)
+    for i in range(len(substitutes)):
+        if len(all_substitutes) == 0:
+            lev_i = substitutes[i]
+            all_substitutes = [[int(c)] for c in lev_i]
+        else:
+            lev_i = []
+            for all_sub in all_substitutes:
+                for j in substitutes[i]:
+                    lev_i.append(all_sub + [int(j)])
+            all_substitutes = lev_i
 
     # all substitutes  list of list of token-id (all candidates)
     c_loss = nn.CrossEntropyLoss(reduction='none')
     word_list = []
     # all_substitutes = all_substitutes[:24]
-    all_phrases = torch.tensor(all_phrases) # [ N, L ]
-    # all_substitutes = all_substitutes[:24].to('cuda')
-    all_phrases = all_phrases.to('cuda')
+    all_substitutes = torch.tensor(all_substitutes) # [ N, L ]
+    all_substitutes = all_substitutes[:24].to('cuda')
     # print(substitutes.size(), all_substitutes.size())
-    N, L = all_phrases.size()
-
-    ppl = None
-    cnt = 0
-    while cnt < N:
-        if ppl is None:
-            word_predictions = mlm_model(all_phrases[:cnt+batch_size])[0]
-
-            substitues_len = all_phrases[:cnt+batch_size].shape[0]
-            size = batch_size if substitues_len == batch_size else substitues_len
-            # print(all_substitutes[:cnt+batch_size].shape)
-            ppl = c_loss(word_predictions.view(size * L, -1), all_phrases[:cnt+batch_size].view(-1))
-        else:
-            temp = mlm_model(all_phrases[cnt:cnt+batch_size])[0]
-
-            substitues_len = all_phrases[cnt:cnt+batch_size].shape[0]
-            size = batch_size if substitues_len == batch_size else substitues_len
-
-            temp_ppl = c_loss(temp.view(size * L, -1), all_phrases[cnt:cnt+batch_size].view(-1))
-            ppl = torch.cat([ppl, temp_ppl], dim=0)
-        cnt += batch_size
-
-
-    # word_predictions = mlm_model(all_substitutes)[0] # N L vocab-size
-    # ppl = c_loss(word_predictions.view(N*L, -1), all_substitutes.view(-1)) # [ N*L ] 
+    N, L = all_substitutes.size()
+    word_predictions = mlm_model(all_substitutes)[0] # N L vocab-size
+    ppl = c_loss(word_predictions.view(N*L, -1), all_substitutes.view(-1)) # [ N*L ] 
     ppl = torch.exp(torch.mean(ppl.view(N, L), dim=-1)) # N  
     _, word_list = torch.sort(ppl)
     word_list = [all_substitutes[i] for i in word_list]
@@ -322,14 +260,12 @@ def get_bpe_substitues(substitutes, original, before_words, after_words, arg_k, 
         tokens = [tokenizer._convert_id_to_token(int(i)) for i in word]
         text = tokenizer.convert_tokens_to_string(tokens)
         final_words.append(text)
-    return final_words[:arg_k]
+    return final_words
 
 
 def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=512, cos_mat=None, w2i={}, i2w={}, use_bpe=1, threshold_pred_score=0.3):
     # MLM-process
     words, sub_words, keys = _tokenize(feature.seq, tokenizer)
-    
-    phrase_cnt = 2
 
     # original label
     inputs = tokenizer.encode_plus(feature.seq, None, add_special_tokens=True, max_length=max_length, )
@@ -369,8 +305,6 @@ def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=5
     # print(list_of_index)
     final_words = copy.deepcopy(words)
 
-    phrase_input_ids = input_ids_[0, 1:len(sub_words)+1].tolist()
-
     for top_index in list_of_index:
         if feature.change > int(0.4 * (len(words))):
             feature.label_adv = -1
@@ -378,13 +312,6 @@ def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=5
             return feature
 
         tgt_word = words[top_index[0]]
-        
-        before_idx = 0 if top_index[0] - phrase_cnt < 0 else top_index[0] - phrase_cnt
-        after_idx = len(words)-1 if top_index[0] + phrase_cnt > len(words) - 1 else top_index[0] + phrase_cnt
-
-        before_words = phrase_input_ids[keys[before_idx][0]:keys[top_index[0]][0]]
-        after_words = phrase_input_ids[keys[top_index[0]][1]:keys[after_idx][1]]
-
         if tgt_word in filter_words:
             continue
         # filter out the punctuation marks
@@ -399,9 +326,7 @@ def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=5
         # score(probability) of substitutes
         word_pred_scores = word_pred_scores_all[keys[top_index[0]][0]:keys[top_index[0]][1]]
 
-        orig_subword = (input_ids_[0, 1:len(sub_words)+1].tolist())[keys[top_index[0]][0]:keys[top_index[0]][1]]
-
-        substitutes = get_substitues(substitutes, orig_subword, before_words, after_words, k, tokenizer, mlm_model, use_bpe, word_pred_scores, threshold_pred_score)
+        substitutes = get_substitues(substitutes, tokenizer, mlm_model, use_bpe, word_pred_scores, threshold_pred_score)
 
 
         most_gap = 0.0
