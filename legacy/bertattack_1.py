@@ -253,7 +253,7 @@ def get_bpe_substitues(substitutes, tokenizer, mlm_model):
         tokens = [tokenizer._convert_id_to_token(int(i)) for i in word]
         text = tokenizer.convert_tokens_to_string(tokens)
         final_words.append(text)
-    return final_words
+    return final_words[:48]
 
 
 def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=512, cos_mat=None, w2i={}, i2w={}, use_bpe=1, threshold_pred_score=0.3):
