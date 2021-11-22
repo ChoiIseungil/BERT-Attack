@@ -614,7 +614,7 @@ def run_attack():
     parser.add_argument("--num_label", type=int, )
     parser.add_argument("--use_bpe", type=int, )
     parser.add_argument("--k", type=int, )
-    parser.add_argument("--alpha", default = 0, type=lambda x: (0<= float(x) <=1), )
+    parser.add_argument("--alpha", default = 0, type=float, )
     parser.add_argument("--threshold_pred_score", type=float, )
 
 
@@ -674,11 +674,11 @@ def run_attack():
     result_str = evaluate(features_output)
 
     
-    f = open(os.path.splitext(output_dir)[0] + '-' + ALPHA + ".txt", "w")
+    f = open(os.path.splitext(output_dir)[0] + "-" + str(ALPHA) + ".txt", "w")
     f.write(result_str)
     f.close()
 
-    dump_features(features_output, os.path.splitext(output_dir)[0] + '-' + ALPHA + ".tsv")
+    dump_features(features_output, os.path.splitext(output_dir)[0] + "-" + str(ALPHA) + ".tsv")
 
 
 if __name__ == '__main__':
