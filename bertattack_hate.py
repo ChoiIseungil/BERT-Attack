@@ -247,8 +247,10 @@ def get_substitues(tgt_word, substitutes, original, before_words, after_words, k
         if use_bpe == 1:
             words = get_bpe_substitues(substitutes, original, before_words, after_words, k - num_typos, tokenizer, mlm_model)
 
-    augmenter = Augmenter(transformation=transformation, constraints=constraints, pct_words_to_swap=0, transformations_per_example=num_typos)
-    typo_query = augmenter.augment(tgt_word)
+    typo_query = []
+    if num_typos>0:
+        augmenter = Augmenter(transformation=transformation, constraints=constraints, pct_words_to_swap=0, transformations_per_example=num_typos)
+        typo_query = augmenter.augment(tgt_word)
     return words+typo_query
 
 
