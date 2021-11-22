@@ -7,13 +7,19 @@
 
 import warnings
 import os
-
 import torch
 import torch.nn as nn
 import json
+import random
 from torch.utils.data import DataLoader, SequentialSampler, TensorDataset
 from transformers import BertConfig, BertTokenizer, AutoTokenizer
 from transformers import BertForSequenceClassification, BertForMaskedLM
+from textattack.constraints.pre_transformation.min_word_length import MinWordLength
+from textattack.transformations import WordSwapNeighboringCharacterSwap, \
+    WordSwapRandomCharacterDeletion, WordSwapRandomCharacterInsertion, \
+        WordSwapRandomCharacterSubstitution, WordSwapQWERTY
+from textattack.augmentation import Augmenter
+from textattack.transformations import CompositeTransformation
 import copy
 import argparse
 import numpy as np
@@ -52,6 +58,47 @@ filter_words = ['a', 'about', 'above', 'across', 'after', 'afterwards', 'again',
                 'your', 'yours', 'yourself', 'yourselves']
 filter_words = set(filter_words)
 f = None
+
+class FixWordSwapQWERTY(WordSwapQWERTY):
+    def _get_replacement_words(self, word):
+        if len(word) <= 1:
+            return []
+
+        candidate_words = []
+
+        start_idx = 1 if self.skip_first_char else 0
+        end_idx = len(word) - (1 + self.skip_last_char)
+
+        if start_idx >= end_idx:
+            return []
+
+        if self.random_one:
+            i = random.randrange(start_idx, end_idx + 1)
+            if len(self._get_adjacent(word[i])) == 0:
+                candidate_word = (
+                word[:i] + random.choice(list(self._keyboard_adjacency.keys())) + word[i + 1:]
+                )
+            else:
+                candidate_word = (
+                word[:i] + random.choice(self._get_adjacent(word[i])) + word[i + 1:]
+                )
+                candidate_words.append(candidate_word)
+        else:
+            for i in range(start_idx, end_idx + 1):
+                for swap_key in self._get_adjacent(word[i]):
+                    candidate_word = word[:i] + swap_key + word[i + 1 :]
+                    candidate_words.append(candidate_word)
+
+        return candidate_words
+
+transformation = CompositeTransformation([
+    WordSwapRandomCharacterDeletion(),
+    WordSwapNeighboringCharacterSwap(),
+    WordSwapRandomCharacterInsertion(),
+    WordSwapRandomCharacterSubstitution(),
+    FixWordSwapQWERTY(),
+    ])
+constraints = [MinWordLength(5)]
 
 def filter_punc(word, prefix, use_bpe):
     global f
@@ -185,28 +232,24 @@ def get_important_scores(words, tgt_model, orig_prob, orig_label, orig_probs, to
     return import_scores
 
 
-def get_substitues(substitutes, original, before_words, after_words, k, tokenizer, mlm_model, use_bpe, substitutes_score=None, threshold=3.0):
+def get_substitues(tgt_word, substitutes, original, before_words, after_words, k, tokenizer, mlm_model, use_bpe, substitutes_score=None, threshold=3.0):
     # substitues L,k
     # from this matrix to recover a word
     words = []
     sub_len, k = substitutes.size()  # sub-len, k
-
-    if sub_len == 0:
-        return words
-        
-    elif sub_len == 1:
+    num_typos = round(k*ALPHA)
+    if sub_len == 1:
         for (i,j) in zip(substitutes[0], substitutes_score[0]):
             if threshold != 0 and j < threshold:
                 break
             words.append(tokenizer._convert_id_to_token(int(i)))
     else:
         if use_bpe == 1:
-            words = get_bpe_substitues(substitutes, original, before_words, after_words, k, tokenizer, mlm_model)
-        else:
-            return words
-    #
-    # print(words)
-    return words
+            words = get_bpe_substitues(substitutes, original, before_words, after_words, k - num_typos, tokenizer, mlm_model)
+
+    augmenter = Augmenter(transformation=transformation, constraints=constraints, pct_words_to_swap=0, transformations_per_example=num_typos)
+    typo_query = augmenter.augment(tgt_word)
+    return words+typo_query
 
 
 def get_bpe_substitues(substitutes, original, before_words, after_words, arg_k, tokenizer, mlm_model):
@@ -240,16 +283,6 @@ def get_bpe_substitues(substitutes, original, before_words, after_words, arg_k, 
     substitutes = subst_wo_punc
 
     all_substitutes = []
-    # for i in range(len(substitutes)):
-    #     if len(all_substitutes) == 0:
-    #         lev_i = substitutes[i]
-    #         all_substitutes = [[int(c)] for c in lev_i]
-    #     else:
-    #         lev_i = []
-    #         for all_sub in all_substitutes:
-    #             for j in substitutes[i]:
-    #                 lev_i.append(all_sub + [int(j)])
-    #         all_substitutes = lev_i
 
     combinator = combinations(list(range(len(substitutes))), change_num)
     combinator = list(combinator)
@@ -395,7 +428,7 @@ def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=5
 
         orig_subword = (input_ids_[0, 1:len(sub_words)+1].tolist())[keys[top_index[0]][0]:keys[top_index[0]][1]]
 
-        substitutes = get_substitues(substitutes, orig_subword, before_words, after_words, k, tokenizer, mlm_model, use_bpe, word_pred_scores, threshold_pred_score)
+        substitutes = get_substitues(tgt_word, substitutes, orig_subword, before_words, after_words, k, tokenizer, mlm_model, use_bpe, word_pred_scores, threshold_pred_score)
 
 
         most_gap = 0.0
@@ -451,7 +484,7 @@ def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=5
             final_words[top_index[0]] = candidate
 
     feature.final_adverse = (tokenizer.convert_tokens_to_string(final_words))
-    feature.label_adv = temp_label.item()
+    feature.label_adv = -1
     feature.success = 2
     return feature
 
@@ -585,6 +618,8 @@ def run_attack():
     num_label = args.num_label
     use_bpe = args.use_bpe
     k = args.k
+    global ALPHA
+    ALPHA = args.alpha
     start = args.start
     end = args.end
     threshold_pred_score = args.threshold_pred_score
@@ -592,7 +627,6 @@ def run_attack():
     print('start process')
 
     tokenizer_mlm = BertTokenizer.from_pretrained(mlm_path)
-    # tokenizer_tgt = BertTokenizer.from_pretrained(tgt_path, do_lower_case=True)
     tokenizer_tgt = AutoTokenizer.from_pretrained(tgt_path)
 
     config_atk = BertConfig.from_pretrained(mlm_path)
@@ -600,7 +634,6 @@ def run_attack():
     mlm_model.to('cuda')
 
     config_tgt = BertConfig.from_pretrained(tgt_path, num_labels=num_label)
-    # tgt_model = BertForSequenceClassification.from_pretrained(tgt_path, config=config_tgt)
     tgt_model = Model_Rational_Label.from_pretrained(tgt_path, config=config_tgt)
     tgt_model.to('cuda')
     features = get_data_cls(data_path)
@@ -632,12 +665,12 @@ def run_attack():
 
     result_str = evaluate(features_output)
 
-    
-    f = open(os.path.splitext(output_dir)[0] + ".txt", "w")
+
+    f = open(os.path.splitext(output_dir)[0] + '-' + ALPHA + ".txt", "w")
     f.write(result_str)
     f.close()
 
-    dump_features(features_output, output_dir)
+    dump_features(features_output, os.path.splitext(output_dir)[0] + '-' + ALPHA + ".tsv")
 
 
 if __name__ == '__main__':
