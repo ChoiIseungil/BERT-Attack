@@ -26,6 +26,7 @@ import numpy as np
 import time
 from itertools import combinations, product
 import ipdb
+import unicodedata
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -109,13 +110,14 @@ def filter_punc(word, prefix, use_bpe):
             f = open("./punc_log_wo_sub.txt", "w")
         print("use_bpe: {0}".format(use_bpe))
     
-    punc_list = ".,?!@#$%^&*()_+=-[]{}:;`~"
+    punc_list = ".,?!@#$%^&*()_+=-[]{}:;`~<>\\\"\'"
     if prefix == 'sub\t':
         if word[:2] == "##":
             word = word[2:]
     # f.write(word + "\n")
+    w = unicodedata.normalize('NFKC', word)
     for punc in punc_list:
-        if punc in word:
+        if punc in w:
             f.write(prefix + word + "\n")
             return True
     return False
@@ -249,12 +251,17 @@ def get_substitues(tgt_word, substitutes, original, before_words, after_words, k
     else:
         if use_bpe == 1:
             words = get_bpe_substitues(substitutes, original, before_words, after_words, k - num_typos, tokenizer, mlm_model)
-            
+    
+    words = words[:k-num_typos]
+
     typo_query = []
     if num_typos>0:
         augmenter = Augmenter(transformation=transformation, constraints=constraints, pct_words_to_swap=0, transformations_per_example=num_typos)
         typo_query = augmenter.augment(tgt_word)
-    return words+typo_query
+    result = words+typo_query
+    for t in result:
+        assert t.islower(), f"assertion failed: {t}"
+    return result
 
 
 def get_bpe_substitues(substitutes, original, before_words, after_words, arg_k, tokenizer, mlm_model):

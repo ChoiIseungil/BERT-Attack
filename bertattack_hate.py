@@ -27,6 +27,7 @@ from hate_model import Model_Rational_Label
 import time
 from itertools import combinations, product
 import ipdb
+import unicodedata
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -109,13 +110,15 @@ def filter_punc(word, prefix, use_bpe):
             f = open("./punc_log_wo_sub.txt", "w")
         print("use_bpe: {0}".format(use_bpe))
     
-    punc_list = ".,?!@#$%^&*()_+=-[]{}:;`~"
+    punc_list = ".,?!@#$%^&*()_+=-[]{}:;`~<>\\\"\'"
     if prefix == 'sub\t':
         if word[:2] == "##":
             word = word[2:]
+
+    w = unicodedata.normalize('NFKC', word)
     # f.write(word + "\n")
     for punc in punc_list:
-        if punc in word:
+        if punc in w:
             f.write(prefix + word + "\n")
             return True
     return False
@@ -246,6 +249,8 @@ def get_substitues(tgt_word, substitutes, original, before_words, after_words, k
     else:
         if use_bpe == 1:
             words = get_bpe_substitues(substitutes, original, before_words, after_words, k - num_typos, tokenizer, mlm_model)
+
+    words = words[:k-num_typos]
 
     typo_query = []
     if num_typos>0:

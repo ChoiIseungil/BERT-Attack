@@ -26,6 +26,8 @@ import numpy as np
 import time
 from itertools import combinations, product
 import ipdb
+import unicodedata
+from nltk.corpus import wordnet
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -57,7 +59,7 @@ filter_words = ['a', 'about', 'above', 'across', 'after', 'afterwards', 'again',
                 'your', 'yours', 'yourself', 'yourselves']
 filter_words = set(filter_words)
 f = None
-
+g = None
 
 class FixWordSwapQWERTY(WordSwapQWERTY):
     def _get_replacement_words(self, word):
@@ -109,13 +111,14 @@ def filter_punc(word, prefix, use_bpe):
             f = open("./punc_log_wo_sub.txt", "w")
         print("use_bpe: {0}".format(use_bpe))
     
-    punc_list = ".,?!@#$%^&*()_+=-[]{}:;`~"
+    punc_list = ".,?!@#$%^&*()_+=-[]{}:;`~<>\\\"\'"
     if prefix == 'sub\t':
         if word[:2] == "##":
             word = word[2:]
     # f.write(word + "\n")
+    w = unicodedata.normalize('NFKC', word)
     for punc in punc_list:
-        if punc in word:
+        if punc in w:
             f.write(prefix + word + "\n")
             return True
     return False
@@ -247,12 +250,36 @@ def get_substitues(tgt_word, substitutes, original, before_words, after_words, k
         if use_bpe == 1:
             words = get_bpe_substitues(substitutes, original, before_words, after_words, k - num_typos, tokenizer, mlm_model)
 
-    typo_query = []
+    words = words[:k-num_typos]
+
+    typos = []
     if num_typos>0:
-        augmenter = Augmenter(transformation=transformation, constraints=constraints, pct_words_to_swap=0, transformations_per_example=num_typos)
-        typo_query = augmenter.augment(tgt_word)
+        while len(typos) < num_typos:
+            augmenter = Augmenter(transformation=transformation, constraints=constraints, pct_words_to_swap=0, transformations_per_example=num_typos)
+            typo_query = augmenter.augment(tgt_word)
+            typo_query = list(set(list(map(str.lower,typo_query))))
+            typos.extend(typo_query)
+        typos = typos[:num_typos]
     
-    return words+typo_query
+    # nltk corpus
+    global g
+    if g is None:
+        g = open("./typo_nltk_log.txt", "w")
+
+    temp = []
+    for typo in typos:
+        if not wordnet.synsets(typo):
+            temp.append(typo)
+        else:
+            g.write(typo + "\n")
+    
+    typos = temp
+
+    assert(len(words) == k-num_typos)
+    assert(len(typos) == num_typos)
+    assert(len(words+typo_query) == k)
+
+    return words+typos
 
 
 def get_bpe_substitues(substitutes, original, before_words, after_words, arg_k, tokenizer, mlm_model):
@@ -690,3 +717,5 @@ if __name__ == '__main__':
     print("Elapsed time: {:.4f}".format(time.time()-start))
     if f is not None:
         f.close()
+    if g is not None:
+        g.close()
