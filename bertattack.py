@@ -59,7 +59,6 @@ filter_words = ['a', 'about', 'above', 'across', 'after', 'afterwards', 'again',
                 'your', 'yours', 'yourself', 'yourselves']
 filter_words = set(filter_words)
 f = None
-g = None
 
 class FixWordSwapQWERTY(WordSwapQWERTY):
     def _get_replacement_words(self, word):
@@ -240,7 +239,6 @@ def get_substitues(tgt_word, substitutes, original, before_words, after_words, k
     # from this matrix to recover a word
     words = []
     sub_len, k = substitutes.size()  # sub-len, k
-    num_typos = round(k*ALPHA)
     if sub_len == 1:
         for (i,j) in zip(substitutes[0], substitutes_score[0]):
             if threshold != 0 and j < threshold:
@@ -252,32 +250,19 @@ def get_substitues(tgt_word, substitutes, original, before_words, after_words, k
 
     words = words[:k-num_typos]
 
-    typos = []
-    if num_typos>0:
+    typos = set()
+    if num_typos>0 and len(tgt_word)>=5:
         while len(typos) < num_typos:
+            print("num typos",num_typos)
             augmenter = Augmenter(transformation=transformation, constraints=constraints, pct_words_to_swap=0, transformations_per_example=num_typos)
-            typo_query = augmenter.augment(tgt_word)
-            typo_query = list(set(list(map(str.lower,typo_query))))
-            typos.extend(typo_query)
-        typos = typos[:num_typos]
-    
-    # nltk corpus
-    global g
-    if g is None:
-        g = open("./typo_nltk_log.txt", "w")
+            new_typos = augmenter.augment(tgt_word)
+            new_typos = set(map(str.lower,new_typos))
+            new_typos = set([t for t in new_typos if not wordnet.synsets(t)])
+            typos |= new_typos
+            print(typos,len(typos))
 
-    temp = []
-    for typo in typos:
-        if not wordnet.synsets(typo):
-            temp.append(typo)
-        else:
-            g.write(typo + "\n")
-    
-    typos = temp
-
-    assert(len(words) == k-num_typos)
-    assert(len(typos) == num_typos)
-    assert(len(words+typo_query) == k)
+    typos = list(typos)
+    typos = typos[:num_typos]
 
     return words+typos
 
@@ -376,8 +361,6 @@ def get_bpe_substitues(substitutes, original, before_words, after_words, arg_k, 
         cnt += batch_size
 
 
-    # word_predictions = mlm_model(all_substitutes)[0] # N L vocab-size
-    # ppl = c_loss(word_predictions.view(N*L, -1), all_substitutes.view(-1)) # [ N*L ] 
     ppl = torch.exp(torch.mean(ppl.view(N, L), dim=-1)) # N  
     _, word_list = torch.sort(ppl)
     word_list = [all_substitutes[i] for i in word_list]
@@ -392,7 +375,7 @@ def get_bpe_substitues(substitutes, original, before_words, after_words, arg_k, 
 def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=512, cos_mat=None, w2i={}, i2w={}, use_bpe=1, threshold_pred_score=0.3):
     # MLM-process
     words, sub_words, keys = _tokenize(feature.seq, tokenizer)
-    
+
     phrase_cnt = 2
 
     # original label
@@ -457,10 +440,7 @@ def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=5
         if keys[top_index[0]][0] > max_length - 2:
             continue
 
-        # (word's subword #) * K
-        # top_index[0]: idx, top_index[1]: important score
         substitutes = word_predictions[keys[top_index[0]][0]:keys[top_index[0]][1]]  # L, k
-        # score(probability) of substitutes
         word_pred_scores = word_pred_scores_all[keys[top_index[0]][0]:keys[top_index[0]][1]]
 
         orig_subword = (input_ids_[0, 1:len(sub_words)+1].tolist())[keys[top_index[0]][0]:keys[top_index[0]][1]]
@@ -484,9 +464,9 @@ def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=5
             # filter out the punctuation marks
             if filter_punc(substitute, "substitude\t", use_bpe):
                 continue
-            if substitute in w2i and tgt_word in w2i:
-                if cos_mat[w2i[substitute]][w2i[tgt_word]] < 0.4:
-                    continue
+            # if substitute in w2i and tgt_word in w2i:
+            #     if cos_mat[w2i[substitute]][w2i[tgt_word]] < 0.4:
+            #         continue
             temp_replace = final_words
             temp_replace[top_index[0]] = substitute
             temp_text = tokenizer.convert_tokens_to_string(temp_replace)
@@ -606,7 +586,6 @@ def evaluate(features):
 
     result_str = 'acc/aft-atk-acc {:.6f}/ {:.6f}, query-num {:.4f}, change-rate {:.4f}'.format(origin_acc, after_atk, query, change_rate)
     result_str += '\nacc: {:.6f}, total: {:.6f}, total_q: {:.6f}, total_change: {:.6f}, total_word: {:.6f}, origin_success: {:.6f}'.format(acc, total, total_q, total_change, total_word, origin_success)
-    # print('acc/aft-atk-acc {:.6f}/ {:.6f}, query-num {:.4f}, change-rate {:.4f}'.format(origin_acc, after_atk, query, change_rate))
     print(result_str)
     return result_str
 
@@ -644,7 +623,7 @@ def run_attack():
     parser.add_argument("--num_label", type=int, )
     parser.add_argument("--use_bpe", type=int, )
     parser.add_argument("--k", type=int, )
-    parser.add_argument("--alpha", default = 0, type=float, )
+    parser.add_argument("--alpha", default = 0, type=int, )
     parser.add_argument("--threshold_pred_score", type=float, )
 
 
@@ -656,15 +635,14 @@ def run_attack():
     num_label = args.num_label
     use_bpe = args.use_bpe
     k = args.k
-    global ALPHA
-    ALPHA = args.alpha
+    global num_typos
+    num_typos = round((args.alpha/100)*(args.k))
     start = args.start
     end = args.end
     threshold_pred_score = args.threshold_pred_score
 
     print('start process')
 
-    tokenizer_mlm = BertTokenizer.from_pretrained(mlm_path, do_lower_case=True)
     tokenizer_tgt = BertTokenizer.from_pretrained(tgt_path, do_lower_case=True)
 
     config_atk = BertConfig.from_pretrained(mlm_path)
@@ -675,14 +653,12 @@ def run_attack():
     tgt_model = BertForSequenceClassification.from_pretrained(tgt_path, config=config_tgt)
     tgt_model.to('cuda')
     features = get_data_cls(data_path)
-    print('loading sim-embed')
     
     if args.use_sim_mat == 1:
         cos_mat, w2i, i2w = get_sim_embed('data_defense/counter-fitted-vectors.txt', 'data_defense/cos_sim_counter_fitting.npy')
     else:        
         cos_mat, w2i, i2w = None, {}, {}
 
-    print('finish get-sim-embed')
     features_output = []
 
     with torch.no_grad():
@@ -690,11 +666,9 @@ def run_attack():
             seq_a, label = feature
             feat = Feature(seq_a, label)
             print('\r number {:d} '.format(index) + tgt_path, end='')
-            # print(feat.seq[:100], feat.label)
             feat = attack(feat, tgt_model, mlm_model, tokenizer_tgt, k, batch_size=32, max_length=512,
                           cos_mat=cos_mat, w2i=w2i, i2w=i2w, use_bpe=use_bpe,threshold_pred_score=threshold_pred_score)
 
-            # print(feat.changes, feat.change, feat.query, feat.success)
             if feat.success > 2:
                 print('success', end='')
             else:
@@ -704,11 +678,11 @@ def run_attack():
     result_str = evaluate(features_output)
 
     
-    f = open(os.path.splitext(output_dir)[0] + "-" + str(ALPHA) + ".txt", "w")
+    f = open(os.path.splitext(output_dir)[0] + "-" + str(args.alpha) + ".txt", "w")
     f.write(result_str)
     f.close()
 
-    dump_features(features_output, os.path.splitext(output_dir)[0] + "-" + str(ALPHA) + ".tsv")
+    dump_features(features_output, os.path.splitext(output_dir)[0] + "-" + str(args.alpha).split('.')[0] + ".tsv")
 
 
 if __name__ == '__main__':
@@ -717,5 +691,3 @@ if __name__ == '__main__':
     print("Elapsed time: {:.4f}".format(time.time()-start))
     if f is not None:
         f.close()
-    if g is not None:
-        g.close()
