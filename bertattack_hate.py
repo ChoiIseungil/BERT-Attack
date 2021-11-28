@@ -256,9 +256,9 @@ def get_substitues(tgt_word, substitutes, original, before_words, after_words, k
         while len(typos) < num_typos:
             augmenter = Augmenter(transformation=transformation, constraints=constraints, pct_words_to_swap=0, transformations_per_example=num_typos)
             new_typos = augmenter.augment(tgt_word)
-            new_typos = set([t.lower() for t in new_typos if not wordnet.synsets(t)])
             if len(new_typos) < 2:
                 break
+            new_typos = set([t.lower() for t in new_typos if not wordnet.synsets(t)])
             typos |= new_typos
 
     typos = list(typos)
@@ -459,9 +459,9 @@ def attack(feature, tgt_model, mlm_model, tokenizer, k, batch_size, max_length=5
             # filter out the punctuation marks
             if filter_punc(substitute, "substitude\t", use_bpe):
                 continue
-            # if substitute in w2i and tgt_word in w2i:
-            #     if cos_mat[w2i[substitute]][w2i[tgt_word]] < 0.4:
-            #         continue
+            if substitute in w2i and tgt_word in w2i:
+                if cos_mat[w2i[substitute]][w2i[tgt_word]] < 0.4:
+                    continue
             temp_replace = final_words
             temp_replace[top_index[0]] = substitute
             temp_text = tokenizer.convert_tokens_to_string(temp_replace)
