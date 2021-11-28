@@ -258,8 +258,9 @@ def get_substitues(tgt_word, substitutes, original, before_words, after_words, k
         while len(typos) < num_typos:
             augmenter = Augmenter(transformation=transformation, constraints=constraints, pct_words_to_swap=0, transformations_per_example=num_typos)
             new_typos = augmenter.augment(tgt_word)
-            new_typos = set(map(str.lower,new_typos))
-            new_typos = set([t for t in new_typos if not wordnet.synsets(t)])
+            new_typos = set([t.lower() for t in new_typos if not wordnet.synsets(t)])
+            if len(new_typos) < 2:
+                break
             typos |= new_typos
 
     typos = list(typos)
