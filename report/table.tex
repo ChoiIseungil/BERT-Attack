@@ -1,0 +1,47 @@
+\begin{table}[]
+    \begin{tabular}{|c|ccc|}
+    \hline
+    \multicolumn{1}{|l|}{}                                                                & \multicolumn{1}{l}{Original Accuracy} & \multicolumn{1}{l}{Attacked Accuracy} & \multicolumn{1}{l|}{Query Number} \\ \hline
+    \textbf{IMDB}      & 93.2              & 4.5              & 484          \\
+    \textbf{AG's News} & 92.6              & 18.4             & 360          \\
+    \textbf{\begin{tabular}[c]{@{}c@{}}SNLI\\ (hypothesis)\end{tabular}}
+                    & 89.5              & 33.2             & 14           \\
+    \textbf{\begin{tabular}[c]{@{}c@{}}SNLI \\ (premise)\end{tabular}}
+                    & 89.5              & 32.8             & 9            \\ \hline
+    \end{tabular}
+    \end{table}
+    
+\begin{table}[]
+    \begin{tabular}{|c|ccc|}
+    \hline
+    \multicolumn{1}{|l|}{}                                                                & \multicolumn{1}{l}{Original Accuracy} & \multicolumn{1}{l}{Attacked Accuracy} & \multicolumn{1}{l|}{Query Number} \\ \hline
+    \textbf{IMDB}                                                                         & 93.2                                  & 6.4                                   & 476                               \\
+    \textbf{AG's News}                                                                    & 92.6                                  & 26.0                                  & 351                               \\
+    \textbf{\begin{tabular}[c]{@{}c@{}}SNLI\\ (hypothesis)\end{tabular}}                     & 89.5                                  & 32.8                                  & 8.5                               \\
+    \textbf{\begin{tabular}[c]{@{}c@{}}SNLI \\ (premise)\end{tabular}}                 & 89.5                                  & 33.1                                  & 14.2                              \\
+    \textbf{\begin{tabular}[c]{@{}c@{}}HateXPlain\\ (Toxic/Non-toxic)\end{tabular}}       & 79.5                                  & 16.2                                  & 49.6                              \\
+    \textbf{\begin{tabular}[c]{@{}c@{}}HateXPlain\\ (Hate/Normal/Offensive)\end{tabular}} & 66.8                                  & 14.9                                  & 33.9                              \\ \hline
+    \end{tabular}
+    \end{table}
+
+\alpha =  \frac{\text{$|typos|$}} {\text{$|candidates|$}}
+
+
+
+\begin{table}[]
+    \begin{tabulary}{1.5\textwidth}{LCCCCCC}
+    \hline
+     &
+      IMDB &
+      AG's News &
+      \begin{tabular}[c]{@{}l@{}}SNLI\\ (hypothesis)\end{tabular} &
+      \begin{tabular}[c]{@{}l@{}}SNLI\\ (premise)\end{tabular} &
+      \begin{tabular}[c]{@{}l@{}}HateXPlain\\ (Toxic/Non-toxic)\end{tabular} &
+      \begin{tabular}[c]{@{}l@{}}HateXPlain\\ (Hate/Normal/Offensive)\end{tabular} \\ \hline
+    0    & 14.4         & 61.0          & 21.9          & 23.2          & 24.8          & 21.4         \\
+    0.25 & \textbf{7.4} & 33.4          & 13.7          & \textbf{11.7} & 15.9          & 9.9          \\
+    0.50 & 7.6          & 31.6          & \textbf{13.4} & 13.2          & \textbf{13.6} & \textbf{9.2} \\
+    0.75 & 10.3         & 28.8          & 15.0          & 13.2          & 14.9          & 9.3          \\
+    1.00 & 18.5         & \textbf{27.0} & 22.4          & 18.1          & 24.1          & 13.8         \\ \hline
+    \end{tabulary}
+    \end{table}
