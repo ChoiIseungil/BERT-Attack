@@ -741,9 +741,9 @@ INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/adobe/times/ptmri7t.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/vf/adobe/times/ptmri7t.vf
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/adobe/times/ptmrc7t.tfm
-INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/vf/adobe/times/ptmrc7t.vf
 INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
+INPUT /usr/local/texlive/2021/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm
 INPUT /Users/ChoiIseungil-ilb/Desktop/학부/2021 Fall/CS475 자연언어처리를 위한 기계학습/project/BERT-Attack/report/./figures/figure2.png
 INPUT /Users/ChoiIseungil-ilb/Desktop/학부/2021 Fall/CS475 자연언어처리를 위한 기계학습/project/BERT-Attack/report/./figures/figure2.png
 INPUT /Users/ChoiIseungil-ilb/Desktop/학부/2021 Fall/CS475 자연언어처리를 위한 기계학습/project/BERT-Attack/report/./figures/figure2.png

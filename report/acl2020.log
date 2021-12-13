@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.11.2)  13 DEC 2021 17:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2021) (preloaded format=pdflatex 2021.11.2)  13 DEC 2021 17:40
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**"/Users/ChoiIseungil-ilb/Desktop/학부/2021 Fall/CS475 자연언어처리를 위한 기계학습/project/BERT-Attack/report/acl2020.tex"
+**"/Users/ChoiIseungil-ilb/Desktop/학부/2021 Fall/CS475 자연언어처리를 위한 기계학습/project/BERT-Attack/report/acl2020"
 (/Users/ChoiIseungil-ilb/Desktop/학부/2021 Fall/CS475 자연언어처리를 위한 기계학습/project/BERT-Attack/report/acl2020.tex
 LaTeX2e <2020-10-01> patch level 4
 L3 programming layer <2021-02-18> (/usr/local/texlive/2021/texmf-dist/tex/latex/base/article.cls
@@ -22,7 +22,7 @@ File: size11.clo 2020/04/10 v1.4m Standard LaTeX file (size option)
 \abovecaptionskip=\skip47
 \belowcaptionskip=\skip48
 \bibindent=\dimen138
-) (/Users/ChoiIseungil-ilb/Desktop/학부/2021 Fall/CS475 자연언어처리를 위한 기계학습/project/BERT-Attack/report/acl2020.sty (/usr/local/texlive/2021/texmf-dist/tex/latex/hyperref/hyperref.sty
+) (./acl2020.sty (/usr/local/texlive/2021/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2021-02-27 v7.00k Hypertext links for LaTeX
  (/usr/local/texlive/2021/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
 Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
@@ -224,9 +224,7 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \float@box=\box51
 \@float@everytoks=\toks18
 \@floatcapt=\box52
-)
-\@float@every@table=\toks19
- (/usr/local/texlive/2021/texmf-dist/tex/generic/babel/babel.sty
+) (/usr/local/texlive/2021/texmf-dist/tex/generic/babel/babel.sty
 Package: babel 2021/03/24 3.56 The Babel package
  (/usr/local/texlive/2021/texmf-dist/tex/generic/babel/babel.def
 File: babel.def 2021/03/24 3.56 Babel common definitions
@@ -247,14 +245,14 @@ Package babel Info: \l@newzealand = using hyphenrules for ukenglish
 (babel)             (\language21) on input line 108.
 )) (/usr/local/texlive/2021/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2020/08/01 v1.3d Input encoding file
-\inpenc@prehook=\toks20
-\inpenc@posthook=\toks21
+\inpenc@prehook=\toks19
+\inpenc@posthook=\toks20
 ) (/usr/local/texlive/2021/texmf-dist/tex/latex/algorithms/algorithm.sty
 Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating environment
  (/usr/local/texlive/2021/texmf-dist/tex/latex/base/ifthen.sty
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
 )
-\@float@every@algorithm=\toks22
+\@float@every@algorithm=\toks21
 \c@algorithm=\count275
 ) (/usr/local/texlive/2021/texmf-dist/tex/latex/algorithmicx/algpseudocode.sty
 Package: algpseudocode 
@@ -282,10 +280,10 @@ Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
 \TX@target=\dimen161
 \TX@delta=\dimen162
 \TX@cols=\count283
-\TX@ftn=\toks23
+\TX@ftn=\toks22
 ) (/usr/local/texlive/2021/texmf-dist/tex/latex/microtype/microtype.sty
 Package: microtype 2021/03/14 v2.8c Micro-typographical refinements (RS)
-\MT@toks=\toks24
+\MT@toks=\toks23
 \MT@count=\count284
 LaTeX Info: Redefining \textls on input line 790.
 \MT@outer@kern=\dimen163
@@ -301,35 +299,35 @@ Package microtype Info: Loading configuration file microtype.cfg.
  (/usr/local/texlive/2021/texmf-dist/tex/latex/microtype/microtype.cfg
 File: microtype.cfg 2021/03/14 v2.8c microtype main configuration file (RS)
 ))
-LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 79.
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 78.
  (/usr/local/texlive/2021/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 ) (/usr/local/texlive/2021/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2021-03-18 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count286
 \l__pdf_internal_box=\box53
-) (/Users/ChoiIseungil-ilb/Desktop/학부/2021 Fall/CS475 자연언어처리를 위한 기계학습/project/BERT-Attack/report/acl2020.aux)
+) (./acl2020.aux)
 \openout1 = `acl2020.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 79.
-LaTeX Font Info:    ... okay on input line 79.
-Package hyperref Info: Link coloring ON on input line 79.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+Package hyperref Info: Link coloring ON on input line 78.
  (/usr/local/texlive/2021/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
  (/usr/local/texlive/2021/texmf-dist/tex/latex/refcount/refcount.sty
@@ -339,9 +337,10 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count287
 )
-LaTeX Info: Redefining \ref on input line 79.
-LaTeX Info: Redefining \pageref on input line 79.
-LaTeX Info: Redefining \nameref on input line 79.
+LaTeX Info: Redefining \ref on input line 78.
+LaTeX Info: Redefining \pageref on input line 78.
+LaTeX Info: Redefining \nameref on input line 78.
+ (./acl2020.out) (./acl2020.out)
 \@outlinefile=\write3
 \openout3 = `acl2020.out'.
 
@@ -352,12 +351,12 @@ LaTeX Info: Redefining \nameref on input line 79.
 \scratchbox=\box54
 \nofMPsegments=\count289
 \nofMParguments=\count290
-\everyMPshowfont=\toks25
+\everyMPshowfont=\toks24
 \MPscratchCnt=\count291
 \MPscratchDim=\dimen165
 \MPnumerator=\count292
 \makeMPintoPDFobject=\count293
-\everyMPtoPDFconversion=\toks26
+\everyMPtoPDFconversion=\toks25
 ) (/usr/local/texlive/2021/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
@@ -367,14 +366,14 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Info: Redefining \microtypecontext on input line 79.
+LaTeX Info: Redefining \microtypecontext on input line 78.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 79.
+LaTeX Info: Redefining \showhyphens on input line 78.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -384,16 +383,16 @@ File: mt-ptm.cfg 2006/04/20 v1.7 microtype config. file: Times (RS)
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
 )
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 80.
+(Font)              <12> on input line 79.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 80.
+(Font)              <8> on input line 79.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 80.
-LaTeX Font Info:    Trying to load font information for U+lasy on input line 80.
+(Font)              <6> on input line 79.
+LaTeX Font Info:    Trying to load font information for U+lasy on input line 79.
  (/usr/local/texlive/2021/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 80.
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 79.
  (/usr/local/texlive/2021/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
@@ -401,182 +400,122 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `pcr' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-
-
-Package natbib Warning: Citation `HotFlip' on page 1 undefined on input line 90.
-
-
-Package natbib Warning: Citation `TextFooler' on page 1 undefined on input line 90.
-
-
-Package natbib Warning: Citation `BERT-ATTACK:20' on page 1 undefined on input line 92.
-
-
-Package natbib Warning: Citation `BERT' on page 1 undefined on input line 92.
-
-<./figures/figure1.png, id=4, 626.34pt x 504.4446pt>
+<./figures/figure1.png, id=12, 626.34pt x 504.4446pt>
 File: ./figures/figure1.png Graphic file (type png)
 <use ./figures/figure1.png>
-Package pdftex.def Info: ./figures/figure1.png  used on input line 96.
+Package pdftex.def Info: ./figures/figure1.png  used on input line 95.
 (pdftex.def)             Requested size: 218.268pt x 175.78853pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 101.
+(Font)              <10.95> on input line 100.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 101.
+(Font)              <9> on input line 100.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 101.
-
-Package natbib Warning: Citation `Hagen:17' on page 1 undefined on input line 101.
+(Font)              <5> on input line 100.
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 112.
+               Default added (so using `tbp') on input line 111.
 
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 129.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 128.
 (/usr/local/texlive/2021/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [1{/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+)
+Underfull \vbox (badness 1442) has occurred while \output is active []
+
+ [1{/usr/local/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 
- </Users/ChoiIseungil-ilb/Desktop/학부/2021 Fall/CS475 자연언어처리를 위한 기계학습/project/BERT-Attack/report/./figures/figure1.png>]
-
-Package natbib Warning: Citation `AG_news' on page 2 undefined on input line 130.
-
-
-Package natbib Warning: Citation `HateXplain' on page 2 undefined on input line 131.
+ <./figures/figure1.png>]
+Underfull \hbox (badness 1308) in paragraph at lines 130--131
+[]\OT1/ptm/b/n/10.95 (+20) HateXplain \OT1/ptm/m/n/10.95 (+20) ([][]Mathew et al.[][], [][]2021[][]) Hate
+ []
 
 
-Package natbib Warning: Citation `SNLI' on page 2 undefined on input line 137.
-
-
-Underfull \hbox (badness 2903) in paragraph at lines 144--145
+Underfull \hbox (badness 2903) in paragraph at lines 143--144
 \OT1/ptm/m/n/10.95 (+20) Before im-ple-ment-ing \OT1/ptm/b/n/10.95 (+20) Typo BERT-ATTACK\OT1/ptm/m/n/10.95 (+20) ,
  []
 
 
-LaTeX Warning: Reference `tab:modification_setting' on page 2 undefined on input line 169.
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 169.
 
-
-LaTeX Warning: Reference `tab:result_modification' on page 2 undefined on input line 225.
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [2]
-Underfull \hbox (badness 1087) in paragraph at lines 228--233
+[2]
+Underfull \hbox (badness 1087) in paragraph at lines 229--234
 \OT1/ptm/m/n/10.95 (+20) 1 model is equiv-a-lent to orig-i-nal model,
  []
 
-
-LaTeX Warning: Reference `tab:result_alldataset' on page 3 undefined on input line 281.
-
-
-LaTeX Warning: Reference `tab:example-final' on page 3 undefined on input line 300.
-
-[3]
-
-Package natbib Warning: Citation `Princeton_2010' on page 4 undefined on input line 353.
-
-
-Package natbib Warning: Citation `morris2020textattack' on page 4 undefined on input line 357.
-
-
-LaTeX Warning: Reference `eq:alpha' on page 4 undefined on input line 381.
-
-[4]
-
-LaTeX Warning: Reference `sec:appendix' on page 5 undefined on input line 458.
-
-<./figures/figure2.png, id=62, 467.7475pt x 648.4225pt>
+[3] [4]
+<./figures/figure2.png, id=98, 467.7475pt x 648.4225pt>
 File: ./figures/figure2.png Graphic file (type png)
 <use ./figures/figure2.png>
-Package pdftex.def Info: ./figures/figure2.png  used on input line 482.
+Package pdftex.def Info: ./figures/figure2.png  used on input line 483.
 (pdftex.def)             Requested size: 227.62204pt x 315.5432pt.
 
-Overfull \hbox (8.53592pt too wide) in paragraph at lines 482--483
+Overfull \hbox (8.53592pt too wide) in paragraph at lines 483--484
 [][] 
  []
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 483.
+(Font)              <7> on input line 484.
 
-LaTeX Warning: Reference `tab:results' on page 5 undefined on input line 487.
-
-
-LaTeX Warning: Reference `sec:improvement' on page 5 undefined on input line 487.
-
-[5 </Users/ChoiIseungil-ilb/Desktop/학부/2021 Fall/CS475 자연언어처리를 위한 기계학습/project/BERT-Attack/report/./figures/figure2.png>]
-Overfull \hbox (8.53606pt too wide) in paragraph at lines 494--501
+Overfull \hbox (8.53606pt too wide) in paragraph at lines 495--502
 [][] 
  []
 
+[5] [6 <./figures/figure2.png>] (./acl2020.bbl) [7]
 
-LaTeX Warning: Reference `tab:example-unnatural' on page 6 undefined on input line 506.
-
-
-LaTeX Warning: Reference `sec:BERT-ATTACK Improvement' on page 6 undefined on input line 511.
-
-
-LaTeX Warning: Reference `sec:Typo BERT-ATTACK' on page 6 undefined on input line 511.
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 531.
 
 
-LaTeX Warning: Reference `tab:results' on page 6 undefined on input line 513.
+Overfull \hbox (236.15796pt too wide) in paragraph at lines 540--542
+[][]
+ []
 
 
-LaTeX Warning: Reference `fig:results' on page 6 undefined on input line 515.
-
-No file acl2020.bbl.
-[6]
-Underfull \hbox (badness 10000) in paragraph at lines 538--540
+Underfull \hbox (badness 10000) in paragraph at lines 540--542
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 553--555
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 547.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 555--557
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 570--572
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 562.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 572--574
 
  []
 
+[8
 
-Package natbib Warning: There were undefined citations.
-
-[7
-
-] [8] (/Users/ChoiIseungil-ilb/Desktop/학부/2021 Fall/CS475 자연언어처리를 위한 기계학습/project/BERT-Attack/report/acl2020.aux)
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `acl2020.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `acl2020.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
+] [9] (./acl2020.aux)
+Package rerunfilecheck Info: File `acl2020.out' has not changed.
+(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  )
 (\end occurred when \ifx on line 17 was incomplete) 
 Here is how much of TeX's memory you used:
- 13816 strings out of 478994
- 211615 string characters out of 5858184
- 576902 words of memory out of 5000000
- 30774 multiletter control sequences out of 15000+600000
- 442392 words of font info for 247 fonts, out of 8000000 for 9000
+ 13907 strings out of 478994
+ 211876 string characters out of 5858184
+ 579487 words of memory out of 5000000
+ 30803 multiletter control sequences out of 15000+600000
+ 446070 words of font info for 276 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 86i,14n,88p,983b,526s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 86i,14n,88p,979b,526s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2021/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2021/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on "/Users/ChoiIseungil-ilb/Desktop/학부/2021 Fall/CS475 자연언어처리를 위한 기계학습/project/BERT-Attack/report/acl2020.pdf" (8 pages, 551769 bytes).
+Output written on acl2020.pdf (9 pages, 560272 bytes).
 PDF statistics:
- 148 PDF objects out of 1000 (max. 8388607)
- 121 compressed objects within 2 object streams
- 50 named destinations out of 1000 (max. 500000)
- 62475 words of extra memory for PDF output out of 74296 (max. 10000000)
+ 218 PDF objects out of 1000 (max. 8388607)
+ 190 compressed objects within 2 object streams
+ 63 named destinations out of 1000 (max. 500000)
+ 66571 words of extra memory for PDF output out of 74296 (max. 10000000)
 

@@ -1,0 +1,73 @@
+\begin{thebibliography}{10}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+
+\bibitem[{Bowman et~al.(2015)Bowman, Angeli, Potts, and Manning}]{SNLI}
+Samuel~R. Bowman, Gabor Angeli, Christopher Potts, and Christopher~D. Manning.
+  2015.
+\newblock \href {http://arxiv.org/abs/1508.05326} {A large annotated corpus for
+  learning natural language inference}.
+\newblock \emph{CoRR}, abs/1508.05326.
+
+\bibitem[{Devlin et~al.(2018)Devlin, Chang, Lee, and Toutanova}]{BERT}
+Jacob Devlin, Ming{-}Wei Chang, Kenton Lee, and Kristina Toutanova. 2018.
+\newblock \href {http://arxiv.org/abs/1810.04805} {{BERT:} pre-training of deep
+  bidirectional transformers for language understanding}.
+\newblock \emph{CoRR}, abs/1810.04805.
+
+\bibitem[{Ebrahimi et~al.(2017)Ebrahimi, Rao, Lowd, and Dou}]{HotFlip}
+Javid Ebrahimi, Anyi Rao, Daniel Lowd, and Dejing Dou. 2017.
+\newblock \href {http://arxiv.org/abs/1712.06751} {Hotflip: White-box
+  adversarial examples for {NLP}}.
+\newblock \emph{CoRR}, abs/1712.06751.
+
+\bibitem[{Hagen et~al.(2017)Hagen, Potthast, Gohsen, Rathgeber, and
+  Stein}]{Hagen:17}
+Matthias Hagen, Martin Potthast, Marcel Gohsen, Anja Rathgeber, and Benno
+  Stein. 2017.
+\newblock \href {https://doi.org/10.1145/3077136.3080749} {A large-scale query
+  spelling correction corpus}.
+\newblock In \emph{Proceedings of the 40th International ACM SIGIR Conference
+  on Research and Development in Information Retrieval}, SIGIR '17, page
+  1261–1264, New York, NY, USA. Association for Computing Machinery.
+
+\bibitem[{Jin et~al.(2019)Jin, Jin, Zhou, and Szolovits}]{TextFooler}
+Di~Jin, Zhijing Jin, Joey~Tianyi Zhou, and Peter Szolovits. 2019.
+\newblock \href {http://arxiv.org/abs/1907.11932} {Is {BERT} really robust?
+  natural language attack on text classification and entailment}.
+\newblock \emph{CoRR}, abs/1907.11932.
+
+\bibitem[{Li et~al.(2020)Li, Ma, Guo, Xue, and Qiu}]{BERT-ATTACK:20}
+Linyang Li, Ruotian Ma, Qipeng Guo, Xiangyang Xue, and Xipeng Qiu. 2020.
+\newblock \href {http://arxiv.org/abs/2004.09984} {{BERT-ATTACK:} adversarial
+  attack against {BERT} using {BERT}}.
+\newblock \emph{CoRR}, abs/2004.09984.
+
+\bibitem[{Mathew et~al.(2021)Mathew, Saha, Yimam, Biemann, Goyal, and
+  Mukherjee}]{HateXplain}
+Binny Mathew, Punyajoy Saha, Seid~Muhie Yimam, Chris Biemann, Pawan Goyal, and
+  Animesh Mukherjee. 2021.
+\newblock \href {https://ojs.aaai.org/index.php/AAAI/article/view/17745}
+  {Hatexplain: A benchmark dataset for explainable hate speech detection}.
+\newblock \emph{Proceedings of the AAAI Conference on Artificial Intelligence},
+  35(17):14867--14875.
+
+\bibitem[{Morris et~al.(2020)Morris, Lifland, Yoo, Grigsby, Jin, and
+  Qi}]{morris2020textattack}
+John Morris, Eli Lifland, Jin~Yong Yoo, Jake Grigsby, Di~Jin, and Yanjun Qi.
+  2020.
+\newblock Textattack: A framework for adversarial attacks, data augmentation,
+  and adversarial training in nlp.
+\newblock In \emph{Proceedings of the 2020 Conference on Empirical Methods in
+  Natural Language Processing: System Demonstrations}, pages 119--126.
+
+\bibitem[{Princeton(2010)}]{Princeton_2010}
+Princeton. 2010.
+\newblock \href {https://wordnet.princeton.edu/} {About wordnet}.
+
+\bibitem[{Zhang et~al.(2015)Zhang, Zhao, and LeCun}]{AG_news}
+Xiang Zhang, Junbo~Jake Zhao, and Yann LeCun. 2015.
+\newblock \href {http://arxiv.org/abs/1509.01626} {Character-level
+  convolutional networks for text classification}.
+\newblock \emph{CoRR}, abs/1509.01626.
+
+\end{thebibliography}

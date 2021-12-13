@@ -20,7 +20,6 @@
 \usepackage{graphicx}
 \usepackage{natbib}
 \usepackage{float}
-\restylefloat{table}
 \graphicspath{ {./figures} }
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 \renewcommand{\UrlFont}{\ttfamily\small}
@@ -157,11 +156,30 @@ BERT-ATTACK attacks a word composed of sub-words as the following.
  
 \noindent However, the official code calculates perplexity for only 24 candidates. We solved this problem by fixing the code, yet the attack time had soared. The reason was the existence of particular words composed of extremely many sub-words.
 
+
 In addition to the time cost, the original code generated a poor typo on words composed of sub-words. The perturbations on each sub-words resulted in a worse candidate word than a simple typo. Therefore, we limited the number of sub-words that can change. It prevented unacceptable attacks and solved the time-consuming problem.
 
 Third, we filtered out the words containing punctuation marks from the target and the candidate list. The original BERT-ATTACK generated abnormal attack cases that generate a random text from a punctuation mark and vice versa. Those are not valid attacks since humans cannot infer the original test. Through our approach, the attack became natural. 
 
 Lastly, we changed the method of perplexity calculation. The original code calculated the perplexity by putting a single word into BERT. We concluded this is the usage out of the domain since BERT was not trained with single-word sentences. Therefore, we created a phrase containing words of the existing sequence before and after the candidate word, then the phrases are used as the input of BERT. In this way, we maximized BERT’s functionality.
+
+% Please add the following required packages to your document preamble:
+% \usepackage{graphicx}
+{\renewcommand{\arraystretch}{1.2}
+\begin{table*}[]
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{l|ccll|c|c|c|c}
+\hline
+\textbf{Model name} & \multicolumn{4}{c|}{\textbf{Baseline}}  & \textbf{All candidates} & \textbf{Punc} & \textbf{Phrase} & \textbf{Subword}        \\ \hline
+\textbf{Details}    & \multicolumn{4}{c|}{Original Code}                                               & Consider all candidates & Punctuation excluded & Perplexity improvement & Limit subwords \\ \hline
+\textbf{Parameter}  & \multicolumn{1}{c|}{\# of candidates} & \multicolumn{3}{c|}{Subword perturbation} & \# of candidates         & Subword perturbation & Length of phrase       & \# of subword
+ \\ \hline
+\end{tabular}%
+}
+\caption{Types of modified models}
+\label{tab:modification_setting}
+\end{table*}
+}
 
 \subsection{Experiment}
 
@@ -176,23 +194,6 @@ Finally, to improve the prediction from BERT, we changed the policy of scoring p
 
 With modified models, we experiment its performance with AG's news dataset. 
 
-% Please add the following required packages to your document preamble:
-% \usepackage{graphicx}
-{\renewcommand{\arraystretch}{1.2}
-\begin{table*}[H]
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{l|ccll|c|c|c|c}
-\hline
-\textbf{Model name} & \multicolumn{4}{c|}{\textbf{Baseline}}  & \textbf{All candidates} & \textbf{Punc} & \textbf{Phrase} & \textbf{Subword}        \\ \hline
-\textbf{Details}    & \multicolumn{4}{c|}{Original Code}                                               & Consider all candidates & Punctuation excluded & Perplexity improvement & Limit subwords \\ \hline
-\textbf{Parameter}  & \multicolumn{1}{c|}{\# of candidates} & \multicolumn{3}{c|}{Subword perturbation} & \# of candidates         & Subword perturbation & Length of phrase       & \# of subword
- \\ \hline
-\end{tabular}%
-}
-\caption{Types of modified models}
-\label{tab:modification_setting}
-\end{table*}
-}
 \subsection{Result}
 \label{sec:improvement}
 % Results here
@@ -519,35 +520,36 @@ Second, typos were not always the best. 100\% typos were not the optimal except 
 \bibliographystyle{acl_natbib}
 
 \newpage
-\newpage
 
 \appendix
 
 \section{Appendix: Attack Examples}
+
 \label{sec:appendix}
+
 {\renewcommand{\arraystretch}{1.5}
-\begin{table*}[hbt!]
+\begin{table}[]
 {\small
 \begin{tabularx}{\textwidth}{l|X|l}
 \hline
 \textbf{Type} & \textbf{Sentence}  & \textbf{Label}  \\ \hline
-\textbf{Ori}  & Profiling Shaukat Aziz : \blue{economic} reformist - / - PM . Shaukat Aziz , taking over as Pakistan \newline \# 39;s 23rd prime minister on Saturday , is a former private banker credited with infusing new \newline life into an almost bankrupt \blue{economy} .   & World News    \\ \hline
+\textbf{Original}  & Profiling Shaukat Aziz : \blue{economic} reformist - / - PM . Shaukat Aziz , taking over as Pakistan \newline \# 39;s 23rd prime minister on Saturday , is a former private banker credited with infusing new \newline life into an almost bankrupt \blue{economy} .   & World News    \\ \hline
 \textbf{BERT} & profiling shaukat aziz : \red{monetary} reformist - / - pm . shaukat aziz , taking over as pakistan \# 39;s \newline 23rd prime minister on saturday , is a former private banker credited with infusing new life \newline into an almost bankrupt \red{economics} . & Business News \\ \hline
 \textbf{Typo} & prof\red{ll}ing shauka\red{m}t aziz : e\red{q}conomic reformitt - / - pm . shauat aziz , taki\red{b}g over as \red{ap}kistan \# \newline 39;s 23rd p\red{e}ime miniter on \red{as}turday , is a former priva\red{y}e bank\red{re} \red{e}redited with infusin\red{d} new life
 \newline into an almost ba\red{d}nkrupt econo\red{n}y .  & World News    \\ \hline
 \end{tabularx}
 }
 \caption{Examples of Case 1. Original BERT-ATTACK succeeded / 100\% Typo ATTACK failed }
-\end{table*}
+\end{table}
 }
 
 {\renewcommand{\arraystretch}{1.5}
-\begin{table*}[hbt!]
+\begin{table*}[]
 {\small
 \begin{tabularx}{\textwidth}{l|X|l}
 \hline
 \textbf{Type} & \textbf{Sentence}  & \textbf{Label} \\ \hline
-\textbf{Ori}  & Giddy Phelps Touches \blue{Gold} for First Time . \blue{Michael} Phelps won the gold medal in the \blue{400 individual medley} and set a world record in a \blue{time} of \blue{4 minutes} 8.26 \blue{seconds} . & Sports News   \\ \hline
+\textbf{Original}  & Giddy Phelps Touches \blue{Gold} for First Time . \blue{Michael} Phelps won the gold medal in the \blue{400 individual medley} and set a world record in a \blue{time} of \blue{4 minutes} 8.26 \blue{seconds} . & Sports News   \\ \hline
 \textbf{BERT} & iddy phelps touch \red{silver} for first times . \red{mike} phelps won the golden award in the \red{butterfly 400 aquatics} and sets a world records in a \red{hours} of \red{7 min} 8.26 \red{min} .      & Sports News   \\ \hline
 \textbf{Typo} & \red{k}giddy ph\red{le}ps t\red{b}uches gold for first time . m\red{k}chael phelp won the gold m\red{t}dal in the 400 individ\red{k}al medl\red{ye} and set a world ecord in a time of 4 m\red{k}nutes 8.26 seconds .  & Business News \\ \hline
 \end{tabularx}
@@ -557,12 +559,12 @@ Second, typos were not always the best. 100\% typos were not the optimal except 
 }
 
 {\renewcommand{\arraystretch}{1.5}
-\begin{table*}[hbt!]
+\begin{table*}[]
 {\small
 \begin{tabularx}{\textwidth}{l|X|l}
 \hline
 \textbf{Type} & \textbf{Sentence}$\qquad$(Premises: a woman holding a scruffy cat.) & \textbf{Label} \\ \hline
-\textbf{Ori}  & Hypothesis: An \blue{elderly lady} holding a scruffy \blue{dog} and smiling contently .     
+\textbf{Original}  & Hypothesis: An \blue{elderly lady} holding a scruffy \blue{dog} and smiling contently .     
 & Contradiction \\ \hline
 \textbf{BERT}  & Hypothesis: An \red{aged female} holding a scruffy \red{hound} and smiling contently ."    & Contradiction \\ \hline
 \textbf{Typo}  & Hypothesis: an elde\red{j}ly lady h\red{lo}ding a \red{cs}ruffy dog and smilin\red{j}g content\red{yl} .    & Contradiction \\ \hline
