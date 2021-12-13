@@ -40,6 +40,8 @@
 \algnewcommand{\EndIIf}{\unskip}
 
 \usepackage{tabularx}
+% \usepackage{float}
+\usepackage{placeins}
 
 % This is not strictly necessary, and may be commented out,
 % but it will improve the layout of the manuscript,
@@ -183,38 +185,70 @@ Lastly, we changed the method of perplexity calculation. The original code calcu
 
 \subsection{Experiment}
 
-We modified original model into 5 different types.
+We modify original model into 5 different types.
 Table \ref{tab:modification_setting} describes our setting for each models.
-For baseline models, we only changes the parameter of the original model.
-All candidate models are to resolve subword perturbation problem. They don't limit any candidates from subword perturbation, but each model varies the number of generated candidates.
-For punctuation problems, we introduce Punc models. They exclude any punctuation related words.
-To solve the execution time problem, Subword models limit the maximum subword that can be perturbed during subword perturbation.
-Finally, to improve the prediction from BERT, we changed the policy of scoring perplexity. Instead of using the word as input, phrase models use phrase.
+For \textbf{Baseline} models, we only change the parameter of the original model.
+\textbf{All candidate} models are to resolve subword perturbation problem. They don't limit any candidates from subword perturbation.
+For punctuation problems, we introduce \textbf{Punc} models. They exclude any punctuation related words.
+To solve the execution time problem, \textbf{Subword} models limit the maximum subword that can be perturbed during subword perturbation.
+Finally, to improve the prediction from BERT, we change the policy of perplexity scoring. Instead of using a single word as the input, \textbf{Phrase} models use phrase.
 
 
-With modified models, we experiment its performance with AG's news dataset. 
+% With modified models, we experiment its performance with AG's news dataset. 
+% Table \ref{tab:result_modification} shows our final experiment results.
 
 \subsection{Result}
 \label{sec:improvement}
 % Results here
+With modified models, we experiment its performance with AG's news dataset. 
+Table \ref{tab:result_modification} shows our final experiment results.
+
+\paragraph{Baseline} We change parameter of original model to generate Baseline models.
+Baseline-1 model is equivalent to original model, Baseline-2 model reduces the number of candidates during subword perturbation, and Baseline-3 model doesn't attack the subwords.
+Among them, Baseline-1 and Baseline-2 show the best performance.
+Despite of their performances, we decide not to use those models because they are just changed their parameter so that still contains mentioned problems.
+
+% \item \textit{All candidates}:
+\paragraph{All candidates}
+% All candidates models don't limit the number of already generated candidates.
+All candidates-1 generates 4 candidate per subword, but All candidates-2 makes 2 candidate per subword.
+Two All candidates models doesn't show the performance gap, yet All candidates-1 spends too much execution time.
+% To solve this problem, we introduce Subword models later.
+
+\paragraph{Punc}
+% Because punctuation cannot be positioned anywhere, we don't handle any punctuation.
+% Punctuation can be related with subword, so we decided to make two model that Punc-1 doesn't perform subword perturbation, and Punc-2 does.
+Punc-1 model excludes subword perturbation while Punc-2 does, while both of them solves problem related to punctuation marks. Between two models, Punc-2 shows better performance than Punc-1.
+
+% \item \textit{Subword}:
+\paragraph{Subword}
+To resolve the execution time problem of All candidates-1, we introduce subword model to limit subwords changes.
+Subword-1 allows only two subword to be changed during subword perturbation, and Subword-2 allows three of them.
+Subword-2 attacks successfully than Subword-1, and both models reduces execution time properly.
+
+% \item \textit{Phrase}:
+\paragraph{Phrase}
+Phrase models improves the performance when model gets perplexity to generate candidates by using phrase rather than word itself.
+Phrase-1 and Phrase-2 uses 2 and 3 length phrase, respectively. Both improves the performance, while Phrase-2 model attacks better than Phrase-1.
+
 % {\renewcommand{\arraystretch}{1.1}
 \begin{table}[hbt!]
 \begin{tabularx}{\columnwidth}{X|l|l}
 % \begin{tabular}{lll}
 \hline
 \textbf{Model}   & \textbf{Accuracy} & \textbf{Time}     \\ \hline
-Baseline-1       & 0.20     & 1290.8928 \\ \hline
-Baseline-2       & 0.20     & 630.5436  \\ \hline
-Baseline-3       & 0.23     & 732.7911  \\ \hline
-All candidates-1 & 0.20     & 7205.7287 \\ \hline
-All candidates-2 & 0.20     & 648.0994  \\ \hline
-Punc-1           & 0.30     & 743.0371  \\ \hline
-Punc-2           & 0.26     & 705.5875  \\ \hline
-Phrase-1         & 0.24     & 644.0462  \\ \hline
-Phrase-2         & 0.25     & 655.0946  \\ \hline
-Subword-1        & 0.26     & 698.7883  \\ \hline
-Subword-2        & 0.23     & 661.3538  \\ \hline
-Final-1          & 0.25     & 697.9477  \\ \hline
+Baseline-1       & 0.20     & 1290.892 \\ %\hline
+Baseline-2       & 0.20     & 630.5436  \\ %\hline
+Baseline-3       & 0.23     & 732.7911  \\ %\hline
+All candidates-1 & 0.20     & 7205.729 \\ %\hline
+All candidates-2 & 0.20     & 648.0994  \\ %\hline
+Punc-1           & 0.30     & 743.0371  \\ %\hline
+Punc-2           & 0.26     & 705.5875  \\ %\hline
+Phrase-1         & 0.24     & 644.0462  \\ %\hline
+Phrase-2         & 0.25     & 655.0946  \\ %\hline
+Subword-1        & 0.26     & 698.7883  \\ %\hline
+Subword-2        & 0.23     & 661.3538  \\ %\hline
+Final-1          & 0.25     & 697.9477  \\ %\hline
 Final-2          & 0.24     & 664.2827  \\ \hline
 \end{tabularx}
 % \end{tabular}
@@ -222,43 +256,12 @@ Final-2          & 0.24     & 664.2827  \\ \hline
 \label{tab:result_modification}
 \end{table}
 % }
-
-Table \ref{tab:result_modification} shows our final experiment results.
-
-\begin{itemize}
-\item \textit{Baseline}:
-We change parameter of original model to generate Baseline models.
-Baseline-1 model is equivalent to original model, Baseline-2 model reduces the number of candidates during subword perturbation, and Baseline-3 model doesn't attack with subword.
-Among Baseline models, Baseline-1 and Baseline-2 show the best performance. 
-Despite of their performance, we decide not to use those models because they are just changed their parameter so that still contains mentioned problems.
-
-\item \textit{All candidates}:
-All candidates models don't limit the number of already generated candidates.
-All candidates-1 makes 4 candidate per subword, but All candidates-2 makes 2 candidate per subword.
-For All candidates models, two models doesn't show the performance gap. 
-However, All candidates-1 spends too much execution time.
-To solve this problem, we introduce Subword models later.
-
-\item \textit{Punc}:
-Because punctuation cannot be positioned anywhere, we don't handle any punctuation.
-Punctuation can be related with subword, so we decided to make two model that Punc-1 doesn't perform subword perturbation, and Punc-2 does.
-Between two model, Punc-2 shows better performance than Punc-1.
-
-\item \textit{Subword}:
-To resolve the execution time problem of All candidates-1, we introduce subword model that limit too many subwords.
-Subword-1 uses only two subword during subword perturbation, and Subword-2 uses 3 of them.
-By Subword model, we can successfully reduce execution time, and Subword-2 can attack successfully than Subword-1.
-
-\item \textit{Phrase}:
-Phrase models improves the performance when model gets perplexity to generate candidates by using phrase rather than word itself.
-Phrase-1 and Phrase-2 uses 2 and 3 length phrase each. Both improves the performance, and Phrase-2 model improves much more than Phrase-1 model.
-
-\end{itemize}
+% \end{itemize}
 
 Considering the performance of each model, we decided to make 2 different final models. 
 Both final models use All candidates-1, Punc-2, and Subword-2.
-However, Final-1 model uses Phrase-1 but Final-2 model uses Phrase-2.
-Because Final-2 shows the better performance, we use Final-2 for all other experiments.
+However, \textbf{Final-1} model uses Phrase-1 but \textbf{Final-2} model uses Phrase-2.
+We concluded to use \textbf{Final-2} as our new baseline since it shows the better performance.
 
 \begin{table*}[hbt!]
     \centering
@@ -280,8 +283,8 @@ Because Final-2 shows the better performance, we use Final-2 for all other exper
     \end{table*}
 
 Table \ref{tab:result_alldataset} shows the performance of all other datasets. 
-Since we filter all punctuation, its performance should inevitably become worse. 
-However, the number of unnatural attacks are significantly decreased.
+The overall accuracy after the attack inevitably became worse because of filtering all punctuation from the attack. 
+Nonetheless, the number of unnatural attacks were significantly decreased.
 
 
 \begin{table*}[hbt!]
@@ -293,14 +296,14 @@ However, the number of unnatural attacks are significantly decreased.
 \textbf{New model (Final-2)} & \blue{teachers} ask \blue{classes} where is karachi kid jimmy \blue{reacts} outside with katu steve \\ \hline      
 \end{tabular}%
 }
-\caption{Examples of the adversarial attack of the original and new model}
+\caption{Example of the adversarial attack of the original and new model}
 \label{tab:example-final}
 \end{table*}
  
 \subsection{Example}
 In Table \ref{tab:example-final}, there is an example of how models attack the sentence. 
 In this example, all changes of original model is related to bracket or punctuation.
-However, our new model (i.e. Final-2) doesn't show any punctuation marks during attack.
+However, our new model (i.e. \textbf{Final-2}) doesn't show any punctuation marks during attack.
 Therefore, it gives more natural outputs, which are more suitable for adversarial attack.
 
 
@@ -389,7 +392,7 @@ Equation \ref{eq:alpha} is the expression of the parameter $\alpha$.
 We set up the attack experiment using the five different alpha values for each fine-tuned model. We purposed to find the ideal ratio of the typo candidates through this experiment. 
 
 
-\begin{algorithm}
+\begin{algorithm}[hbt!]
 \begin{center}
 \caption{Typo BERT-ATTACK}
 \label{alg:TypoBERTattack}
@@ -447,13 +450,14 @@ We set up the attack experiment using the five different alpha values for each f
 \end{algorithm}
 
 \subsection{Result}
+Through experiments, we obtained an overall better attack success rate than BERT-ATTACK. Also, we observed the existence of an optimal $\alpha$ value for each dataset.
 
 \subsubsection{Attack Examples}
 There are three different cases of attack results.
 \begin{itemize}
-\item Case 1 is the original BERT-ATTACK succeeded, 100\% Typo-ATTACK failed.
-\item Case 2 is the original BERT-ATTACK failed, 100\% Typo-ATTACK succeeded.
-\item Case 3 is the original BERT-ATTACK, 100\% Typo-ATTACK failed, only Mixed ATTACK succeeded.
+\item Case 1: Original BERT-ATTACK succeeded, 100\% Typo-ATTACK failed.
+\item Case 2: Original BERT-ATTACK failed, 100\% Typo-ATTACK succeeded.
+\item Case 3: Original BERT-ATTACK, 100\% Typo-ATTACK failed, only Mixed ATTACK succeeded.
 \end{itemize}
 
 The detailed examples are in the Appendix ~\ref{sec:appendix}.
@@ -461,6 +465,7 @@ Also, we noticed that the results of Mixed ATTACK is more fluent than the result
 
 \subsubsection{Attacked Accuracy}
 {\renewcommand{\arraystretch}{1}
+
 \begin{table*}[hbt!]
     \centering
       
@@ -479,7 +484,8 @@ Also, we noticed that the results of Mixed ATTACK is more fluent than the result
     \end{table*}
     }
   
-  \begin{figure}
+  \begin{figure}[hbt!]
+    \centering
     \includegraphics[width=0.5\textwidth]{figure2}
     \caption{Attacked accuracy(\%) of 6 datasets with resppect to $\alpha$}
     \label{fig:results}
@@ -489,24 +495,33 @@ Also, we noticed that the results of Mixed ATTACK is more fluent than the result
   Remaining five datasets except for AG's News, the optimal $\alpha$ value was lied between 0 and 1.
   100\% typos was the best for the AG's News unlike other datasets.
 
+
+
+
 \subsection{Limitation and Future Work}
 Although we tried to make a thorough analysis while implementing \textbf{Typo BERT-ATTACK}, there were two major limitations involved.
+
+{
+\renewcommand{\arraystretch}{1.5}
 \begin{table}[hbt!]
-    \resizebox{0.5\textwidth}{!}{%
-    \begin{tabular}{l|l}
+{\small
+    % \resizebox{0.5\textwidth}{!}{%
+    \begin{tabularx}{\columnwidth}{l|X}
     \hline
     \textbf{Input sentence}      & A man in a \red{black} tank top \blue{wearing} a red \red{plaid} hat. \\ \hline
     \textbf{Attacked sentence}   & A man in a \red{bmack} tank top \blue{wearnig} a red \red{plyid} hat. \\ \hline  
-    \end{tabular}%
+    \end{tabularx}%
+    % }
     }
     \caption{Examples of the unnatural typos}
     \label{tab:example-unnatural}
     \end{table}
+}
 
-\begin{itemize}
-    \item \textbf{Typo unnaturalness} The main reason we adopt typos to make an attack is that, we supposed the typos are difficult to visually detected by human, while it still decieves the neural models. Therefore the most important premise of typos is that it is visually inconspicuous to human. However, contrary to our goal, most of the generated typos were very unnatrual. Let's make an example in Figure~\ref{tab:example-unnatural}. While the word \textit{wearing} is changed to the word \textit{wearnig}, which is not easy to be detected, but word \textit{black} and \textit{plaid} are so easy to be caught by human. These examples are the out of our purpose. The future work will try an approach that restricts typo generation so that humans cannot recognize it well through making reliable human research.
-    \item \textbf{Explainability} It is remarkable that we performed better than the existing \textbf{Typo BERT-ATTACK}, the big limitation is the explainability. We could not explain the reason why mixing typos and original method is good at attack. Also we could not figure out while optimal $\alpha$ varies among the dataset. We expect this is due to the unique characteristics of each dataset. Further analysis have to be studied to figure out this reasons.
-\end{itemize}
+
+\paragraph{Typo unnaturalness} The main reason we adopt typos to make an attack is that, we supposed the typos are difficult to visually detected by human, while it still decieves the neural models. Therefore the most important premise of typos is that it is visually inconspicuous to human. However, contrary to our goal, most of the generated typos were very unnatrual. Let's make an example in Table~\ref{tab:example-unnatural}. While the word \textit{wearing} is changed to the word \textit{wearnig}, which is not easy to be detected, but word \textit{black} and \textit{plaid} are so easy to be caught by human. These examples are the out of our purpose. The future work will try an approach that restricts typo generation so that humans cannot recognize it well through making reliable human research.
+\paragraph{Explainability} It is remarkable that we performed better than the existing \textbf{Typo BERT-ATTACK}, the big limitation is the explainability. We could not explain the reason why mixing typos and original method is good at attack. Also we could not figure out while optimal $\alpha$ varies among the dataset. We expect this is due to the unique characteristics of each dataset. Further analysis have to be studied to figure out this reasons.
+
 
 \section{Conclusion}
 Through a thorough analysis in Section~\ref{sec:BERT-ATTACK Improvement} and Section~\ref{sec:Typo BERT-ATTACK}, we came to the following conclusions.
@@ -516,19 +531,24 @@ First, better than no typos at all. Table~\ref{tab:results} shows that typos alw
 Second, typos were not always the best. 100\% typos were not the optimal except the AG's News. There were some optimal value for $\alpha$, and this was quite surprising because we first expected typos are much more superior at attacking the model. Therefore figure ~\ref{fig:results} shows a U-shaped graph in which the attack performance decreases as the difference from the optimal $\alpha$ increases. This result means that the effect of the typos are varying with the characteristics of each dataset, and we suppose this is because the typos are not able to change short and important words, because we limited to create typos only for word with length of 5 or more. 
 
 
+\clearpage
+
 \bibliography{anthology,acl2020}
 \bibliographystyle{acl_natbib}
 
-\newpage
+\clearpage
 
 \appendix
 
+\onecolumn
+
 \section{Appendix: Attack Examples}
 
-\label{sec:appendix}
 
+\label{sec:appendix}
+% \FloatBarrier
 {\renewcommand{\arraystretch}{1.5}
-\begin{table}[]
+\begin{table*}[h!]
 {\small
 \begin{tabularx}{\textwidth}{l|X|l}
 \hline
@@ -539,12 +559,12 @@ Second, typos were not always the best. 100\% typos were not the optimal except 
 \newline into an almost ba\red{d}nkrupt econo\red{n}y .  & World News    \\ \hline
 \end{tabularx}
 }
-\caption{Examples of Case 1. Original BERT-ATTACK succeeded / 100\% Typo ATTACK failed }
-\end{table}
+\caption{Example of Case 1. Original BERT-ATTACK succeeded / 100\% Typo ATTACK failed }
+\end{table*}
 }
 
 {\renewcommand{\arraystretch}{1.5}
-\begin{table*}[]
+\begin{table*}[h!]
 {\small
 \begin{tabularx}{\textwidth}{l|X|l}
 \hline
@@ -554,12 +574,12 @@ Second, typos were not always the best. 100\% typos were not the optimal except 
 \textbf{Typo} & \red{k}giddy ph\red{le}ps t\red{b}uches gold for first time . m\red{k}chael phelp won the gold m\red{t}dal in the 400 individ\red{k}al medl\red{ye} and set a world ecord in a time of 4 m\red{k}nutes 8.26 seconds .  & Business News \\ \hline
 \end{tabularx}
 }
-\caption{Examples of Case 2. Original BERT-ATTACK failed / 100\% Typo ATTACK succeeded}
+\caption{Example of Case 2. Original BERT-ATTACK failed / 100\% Typo ATTACK succeeded}
 \end{table*}
 }
 
 {\renewcommand{\arraystretch}{1.5}
-\begin{table*}[]
+\begin{table*}[h!]
 {\small
 \begin{tabularx}{\textwidth}{l|X|l}
 \hline
@@ -574,7 +594,6 @@ Second, typos were not always the best. 100\% typos were not the optimal except 
 \caption{Example of Case 3. Original BERT-ATTACK \& Typo ATTACK failed / Mixed ATTACK succeeded}
 \end{table*}
 }
-
 
 
 \end{document}
